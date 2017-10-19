@@ -2,14 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Simple : Enemy {
-    public float speed = 2;
-    private Animator animator;
+public class Enemy_Orib : Enemy {
 
-    void Start()
-    {
-        animator = GetComponentInChildren<Animator>();
-    }
     public override void SetNextPos()
     {
         UpdatePlayerPos();
@@ -19,10 +13,19 @@ public class Enemy_Simple : Enemy {
             return;
         }
         List<int> selected = new List<int>();
-        float min = 10000;
+        Vector2[] poses = new Vector2[8];
         for(int i=0; i<4; i++)
         {
-            Vector2 temppos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(i));
+            poses[i] = ToolKit.VectorSum(Position, ToolKit.IntToDirection(i));
+        }
+        poses[4] = ToolKit.VectorSum(poses[0], Direction.Right);
+        poses[5] = ToolKit.VectorSum(poses[1], Direction.Down);
+        poses[6] = ToolKit.VectorSum(poses[2], Direction.Left);
+        poses[7] = ToolKit.VectorSum(poses[3], Direction.Up);
+        float min = 10000;
+        for (int i = 0; i < 8; i++)
+        {
+            Vector2 temppos = poses[i];
             if (!CanMoveToPosition(temppos))
                 continue;
             float temp = Vector2.SqrMagnitude(temppos - PlayerPos);
@@ -37,11 +40,12 @@ public class Enemy_Simple : Enemy {
                 selected.Add(i);
             }
         }
+        Debug.Log(selected.Count);
         if (selected.Count == 0)
             engine.EnemyMoveFinished();
-        if(selected.Count == 1)
+        if (selected.Count == 1)
         {
-            NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(selected[0]));
+            NextPos = poses[selected[0]];
         }
         else
         {
@@ -60,43 +64,19 @@ public class Enemy_Simple : Enemy {
                     }
                 }
             }
-            NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(sel));
+            NextPos = poses[sel];
         }
     }
 
     public override void Move()
     {
-        if (Position == NextPos)
+        if (Position != NextPos)
         {
-            engine.EnemyMoveFinished();
-            return;
+            engine.RemovefromDatabase(this);
+            Position = NextPos;
+            transform.position = NextPos;
+            engine.AddtoDatabase(this);
         }
-        engine.RemovefromDatabase(this);
-        Position = NextPos;
-        if (engine.player.Position == NextPos)
-            animator.SetBool("KillWalk", true);
-        else
-            animator.SetBool("Walk", true);
-        StartCoroutine(MoveCo(NextPos));
-
-    }
-
-
-    private IEnumerator MoveCo(Vector3 nextPos)
-    {
-        float remain = (transform.position - nextPos).sqrMagnitude;
-        while (remain > float.Epsilon)
-        {
-            remain = (transform.position - nextPos).sqrMagnitude;
-            transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * speed);
-            yield return null;
-        }
-
-        /// Move Finished
-        animator.SetBool("Walk", false);
-        animator.SetBool("KillWalk", false);
-        engine.AddtoDatabase(this);
         engine.EnemyMoveFinished();
-        
     }
 }

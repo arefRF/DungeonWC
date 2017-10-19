@@ -47,6 +47,10 @@ public class Player : Unit {
                 else
                     return false;
             }
+            else if (units[i] is Enemy)
+            {
+                return false;
+            }
         }
         return true;
     }
