@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Unit {
-
+    private Animator animator;
     public Key key;
 
+
+    void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
     public Vector2 prevpos { get; set; }
     public void Move(Direction direction)
     {
@@ -30,6 +35,12 @@ public class Player : Unit {
         engine.PlayerMoveFinieshed(playermoved);
     }
 
+
+    public void FakeMove(Direction dir)
+    {
+        if (dir == Direction.Right)
+            animator.SetInteger("Walk", 1);
+    }
     private bool CanMoveToPosition(Vector2 position, Direction direction)
     {
         if (!(position.x >= 0 && position.y >= 0 && position.x < engine.sizeX && position.y < engine.sizeY))

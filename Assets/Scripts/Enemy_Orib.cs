@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy_Orib : Enemy {
-
+    private Animator animator;
+    public float speed = 2;
+    void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
     public override void SetNextPos()
     {
         UpdatePlayerPos();
@@ -70,13 +75,34 @@ public class Enemy_Orib : Enemy {
 
     public override void Move()
     {
-        if (Position != NextPos)
+        if (Position == NextPos)
         {
-            engine.RemovefromDatabase(this);
-            Position = NextPos;
-            transform.position = NextPos;
-            engine.AddtoDatabase(this);
+            engine.EnemyMoveFinished();
+            return;
         }
+        animator.SetBool("Walk", true);
+        engine.RemovefromDatabase(this);
+        Position = NextPos;
+        StartCoroutine(MoveCo(NextPos)); 
+
+       
+    }
+
+    private IEnumerator MoveCo(Vector3 nextPos)
+    {
+        float remain = (transform.position - nextPos).sqrMagnitude;
+        while (remain > float.Epsilon)
+        {
+            remain = (transform.position - nextPos).sqrMagnitude;
+            transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * speed);
+            yield return null;
+        }
+
+        /// Move Finished
+        animator.SetBool("Walk", false);
+        animator.SetBool("KillWalk", false);
+        engine.AddtoDatabase(this);
         engine.EnemyMoveFinished();
+
     }
 }
