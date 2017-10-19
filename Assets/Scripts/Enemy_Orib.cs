@@ -79,12 +79,11 @@ public class Enemy_Orib : Enemy {
             engine.EnemyMoveFinished();
             return;
         }
+        engine.AddToSnapshot(Clone());
         animator.SetBool("Walk", true);
         engine.RemovefromDatabase(this);
         Position = NextPos;
         StartCoroutine(MoveCo(NextPos)); 
-
-       
     }
 
     private IEnumerator MoveCo(Vector3 nextPos)
@@ -103,5 +102,30 @@ public class Enemy_Orib : Enemy {
         engine.AddtoDatabase(this);
         engine.EnemyMoveFinished();
 
+    }
+
+    public override Clonable Clone()
+    {
+        return new ClonableEnemy_Orib(this);
+    }
+}
+
+public class ClonableEnemy_Orib : Clonable
+{
+    public ClonableEnemy_Orib(Enemy_Orib enemy)
+    {
+        original = enemy;
+        trasformposition = enemy.transform.position;
+        position = enemy.Position;
+    }
+
+    public override void Undo()
+    {
+        Debug.Log(original);
+        Enemy_Simple enemy = original as Enemy_Simple;
+        enemy.engine.RemovefromDatabase(original);
+        enemy.Position = position;
+        enemy.transform.position = trasformposition;
+        enemy.engine.AddtoDatabase(original);
     }
 }

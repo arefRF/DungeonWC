@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Unit {
+
+    public Key key { get; set; }
+    public Box box { get; set; }
     private Animator animator;
-    public Key key;
     private AnimationEventPlayer a_event;
+    public Vector2 prevpos { get; set; }
 
     void Start()
     {
         a_event = GetComponentInChildren<AnimationEventPlayer>();
         animator = GetComponentInChildren<Animator>();
     }
-    public Vector2 prevpos { get; set; }
+    
     public void Move(Direction direction)
     {
         engine.RemovefromDatabase(this);
@@ -20,15 +23,31 @@ public class Player : Unit {
         bool playermoved = false;
         if (CanMoveToPosition(temppos, direction))
         {
+            engine.AddToSnapshot(Clone());
             prevpos = Position;
             Position = temppos;
             animator.SetInteger("Walk", 0);
-            if(key != null)
+            if (key != null)
+            {
+                engine.AddToSnapshot(key.Clone());
+                engine.RemovefromDatabase(key);
+                key.Position = ToolKit.VectorSum(key.Position, direction);
                 key.transform.position = ToolKit.VectorSum(key.transform.position, direction);
+                engine.AddtoDatabase(key);
+            }
+            if (box != null)
+            {
+                box.Move(direction);
+                box = null;
+            }
             playermoved = true;
+            engine.AddtoDatabase(this);
         }
-        engine.AddtoDatabase(this);
-        MoveFinished(playermoved);
+        else
+        {
+            engine.AddtoDatabase(this);
+            MoveFinished(playermoved);
+        }
     }
 
     public void MoveFinished(bool playermoved)
@@ -39,6 +58,8 @@ public class Player : Unit {
 
     public void FakeMove(Direction dir)
     {
+        if (engine.turn == Turn.EnemyTurn)
+            return;
         a_event.dir = dir;
         if (dir == Direction.Right)
         {
@@ -73,7 +94,7 @@ public class Player : Unit {
             {
                 if ((units[i] as Box).CanMoveToPosition(ToolKit.VectorSum(position, direction)))
                 {
-                    (units[i] as Box).Move(direction);
+                    box = units[i] as Box;
                     return true;
                 }
                 else
@@ -85,5 +106,37 @@ public class Player : Unit {
             }
         }
         return true;
+    }
+
+    public override Clonable Clone()
+    {
+        return new ClonablePlayer(this);
+    }
+}
+
+public class ClonablePlayer: Clonable
+{
+    public Key key;
+    public Vector2 prevpos;
+
+
+    public ClonablePlayer(Player player)
+    {
+        original = player;
+        position = player.Position;
+        key = player.key;
+        prevpos = player.prevpos;
+        trasformposition = player.transform.position;
+    }
+
+    public override void Undo()
+    {
+        Player player = original as Player;
+        player.engine.RemovefromDatabase(original);
+        player.Position = position;
+        player.key = key;
+        player.prevpos = prevpos;
+        player.transform.position = trasformposition;
+        player.engine.AddtoDatabase(original);
     }
 }

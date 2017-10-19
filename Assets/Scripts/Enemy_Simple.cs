@@ -72,6 +72,7 @@ public class Enemy_Simple : Enemy {
             engine.EnemyMoveFinished();
             return;
         }
+        engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = NextPos;
         if (engine.player.Position == NextPos)
@@ -99,5 +100,29 @@ public class Enemy_Simple : Enemy {
         engine.AddtoDatabase(this);
         engine.EnemyMoveFinished();
         
+    }
+
+    public override Clonable Clone()
+    {
+        return new ClonableEnemy_Simple(this);
+    }
+}
+
+public class ClonableEnemy_Simple : Clonable
+{
+    public ClonableEnemy_Simple(Enemy_Simple enemy)
+    {
+        original = enemy;
+        trasformposition = enemy.transform.position;
+        position = enemy.Position;
+    }
+
+    public override void Undo()
+    {
+        Enemy_Simple enemy = original as Enemy_Simple;
+        enemy.engine.RemovefromDatabase(original);
+        enemy.Position = position;
+        enemy.transform.position = trasformposition;
+        enemy.engine.AddtoDatabase(original);
     }
 }

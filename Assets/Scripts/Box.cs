@@ -6,6 +6,7 @@ public class Box : Unit {
 
     public void Move(Direction direction)
     {
+        engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = ToolKit.VectorSum(Position, direction);
         transform.position = ToolKit.VectorSum(transform.position, direction);
@@ -23,5 +24,29 @@ public class Box : Unit {
                 return false;
         }
         return true;
+    }
+
+    public override Clonable Clone()
+    {
+        return new ClonableBox(this);
+    }
+}
+
+public class ClonableBox : Clonable
+{
+    public ClonableBox(Box box)
+    {
+        original = box;
+        position = box.Position;
+        trasformposition = box.transform.position;
+    }
+
+    public override void Undo()
+    {
+        Box box = original as Box;
+        box.engine.RemovefromDatabase(original);
+        box.Position = position;
+        box.transform.position = trasformposition;
+        box.engine.AddtoDatabase(original);
     }
 }
