@@ -25,6 +25,14 @@ public class Enemy : Unit {
 
     public void UpdatePlayerPos()
     {
-        PlayerPos = engine.player.Position;
+        RaycastHit2D hit = Physics2D.Raycast(Position, (engine.player.Position - Position).normalized);
+        if (hit.collider != null)
+        {
+            Player player = hit.collider.gameObject.GetComponent<Player>();
+            if(player != null)
+            {
+                PlayerPos = player.Position;
+            }
+        }
     }
 }

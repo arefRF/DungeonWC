@@ -23,6 +23,8 @@ public class Engine : MonoBehaviour {
 
     public void Begin()
     {
+        for (int i = 0; i < enemies.Count; i++)
+            enemies[i].UpdatePlayerPos();
         turn = Turn.PlayerTurn;
     }
 
