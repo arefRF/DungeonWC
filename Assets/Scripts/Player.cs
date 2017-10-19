@@ -5,10 +5,11 @@ using UnityEngine;
 public class Player : Unit {
     private Animator animator;
     public Key key;
-
+    private AnimationEventPlayer a_event;
 
     void Start()
     {
+        a_event = GetComponentInChildren<AnimationEventPlayer>();
         animator = GetComponentInChildren<Animator>();
     }
     public Vector2 prevpos { get; set; }
@@ -21,7 +22,7 @@ public class Player : Unit {
         {
             prevpos = Position;
             Position = temppos;
-            transform.position = ToolKit.VectorSum(transform.position, direction);
+            animator.SetInteger("Walk", 0);
             if(key != null)
                 key.transform.position = ToolKit.VectorSum(key.transform.position, direction);
             playermoved = true;
@@ -38,8 +39,17 @@ public class Player : Unit {
 
     public void FakeMove(Direction dir)
     {
+        a_event.dir = dir;
         if (dir == Direction.Right)
+        {
+            transform.GetChild(0).rotation = Quaternion.Euler(0, 0, 0);
             animator.SetInteger("Walk", 1);
+        }
+        else if (dir == Direction.Left)
+        {
+            transform.GetChild(0).rotation = Quaternion.Euler(0, 180, 0);
+            animator.SetInteger("Walk", 1);
+        }
     }
     private bool CanMoveToPosition(Vector2 position, Direction direction)
     {
