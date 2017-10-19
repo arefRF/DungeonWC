@@ -45,7 +45,6 @@ public class Enemy_Orib : Enemy {
                 selected.Add(i);
             }
         }
-        Debug.Log(selected.Count);
         if (selected.Count == 0)
             engine.EnemyMoveFinished();
         if (selected.Count == 1)
@@ -100,7 +99,7 @@ public class Enemy_Orib : Enemy {
 
         /// Move Finished
         animator.SetBool("Walk", false);
-        animator.SetBool("KillWalk", false);
+        //animator.SetBool("KillWalk", false);
         engine.AddtoDatabase(this);
         engine.EnemyMoveFinished();
 
