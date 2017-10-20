@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Enemy_Mage : Enemy {
 
-    private bool FireballCharged = false;
-
+    public bool FireballCharged = false;
+    public Direction chargedirection;
     public override void SetNextPos()
     {
         if (FireballCharged)
         {
-            ShootFireBall();
+            ShootFireBall(chargedirection);
             FireballCharged = false;
             return;
         }
@@ -72,7 +72,20 @@ public class Enemy_Mage : Enemy {
             Vector2 temppos = PlayerPos - Position;
             if(temppos.x == 0 || temppos.y == 0)
             {
-                ChargeFireBall();
+                if(temppos.x == 0)
+                {
+                    if(temppos.y > 0)
+                        ChargeFireBall(Direction.Up);
+                    else
+                        ChargeFireBall(Direction.Down);
+                }
+                else if (temppos.y == 0)
+                {
+                    if (temppos.x > 0)
+                        ChargeFireBall(Direction.Right);
+                    else
+                        ChargeFireBall(Direction.Left);
+                }
                 NextPos = Position;
                 return;
             }
@@ -106,13 +119,69 @@ public class Enemy_Mage : Enemy {
         engine.EnemyMoveFinished();
     }
 
-    public void ChargeFireBall()
+    public void ChargeFireBall(Direction direction)
     {
+        chargedirection = direction;
+        FireballCharged = true;
+    }
+
+    public void ShootFireBall(Direction direction)
+    {
+        GameObject g = transform.GetChild(1).gameObject;
+        g.GetComponent<SpriteRenderer>().enabled = true;
+        StartCoroutine(MoveCo(direction));
+    }
+
+    private IEnumerator MoveCo(Direction direction)
+    {
+        GameObject g = transform.GetChild(1).gameObject;
+        Vector2 nextpos = new Vector2(0,0);
+        switch (direction)
+        {
+            case Direction.Down: nextpos = new Vector2(g.transform.position.x, 0); break;
+            case Direction.Left: nextpos = new Vector2(0, g.transform.position.y); break;
+            case Direction.Right: nextpos = new Vector2(engine.sizeX, g.transform.position.y); break;
+            case Direction.Up: nextpos = new Vector2(g.transform.position.x, engine.sizeY); break;
+        }
+        while (g.transform.position.x > 0 && g.transform.position.y > 0 && g.transform.position.x < engine.sizeX && g.transform.position.y < engine.sizeY)
+        {
+            g.transform.position = Vector3.MoveTowards(g.transform.position, nextpos, Time.deltaTime * 40);
+            //Debug.Log("aslb");
+            yield return null;
+        }
+        g.GetComponent<SpriteRenderer>().enabled = false;
+        g.transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
 
     }
 
-    public void ShootFireBall()
+    public override Clonable Clone()
     {
+        return new ClonableEnemy_Mage(this);
+    }
+}
 
+public class ClonableEnemy_Mage : Clonable
+{
+    public Direction fireballdirection;
+    public bool charged;
+    public ClonableEnemy_Mage(Enemy_Mage enemy)
+    {
+        original = enemy;
+        trasformposition = enemy.transform.position;
+        position = enemy.Position;
+        charged = enemy.FireballCharged;
+        fireballdirection = enemy.chargedirection;
+    }
+
+    public override void Undo()
+    {
+        Enemy_Mage enemy = original as Enemy_Mage;
+        enemy.StopAllCoroutines();
+        enemy.engine.RemovefromDatabase(original);
+        enemy.Position = position;
+        enemy.transform.position = trasformposition;
+        enemy.engine.AddtoDatabase(original);
+        enemy.FireballCharged = charged;
+        enemy.chargedirection = fireballdirection;
     }
 }
