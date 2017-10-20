@@ -9,6 +9,9 @@ public class Enemy_Simple : Enemy {
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        source = GetComponent<AudioSource>();
+        Load_Sounds();
+        sound_detetct = SearchSound("Monster 1");
     }
     public override void SetNextPos()
     {

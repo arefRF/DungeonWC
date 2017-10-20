@@ -21,8 +21,14 @@ public class Music : MonoBehaviour {
             int i = Random.Range(1, 3);
             if (SceneManager.GetActiveScene().name == "Start")
             {
-                Music.instance.source.PlayOneShot(Music.instance.sounds[0]);
-                StartCoroutine(MusicShuffle(Music.instance.sounds[0].length));
+                AudioClip music = SearchMusic("Menu");
+                Music.instance.source.PlayOneShot(music);
+                StartCoroutine(MusicShuffle(music.length));
+            }
+            else if (SceneManager.GetActiveScene().name == "Intro")
+            {
+                AudioClip music = SearchMusic("Home");
+                Music.instance.source.PlayOneShot(music);
             }
             else
             {
@@ -34,6 +40,13 @@ public class Music : MonoBehaviour {
 
         DontDestroyOnLoad(this.gameObject);
 	}
+
+    private AudioClip SearchMusic(string name){
+        for(int i=0;i<Music.instance.sounds.Length;i++)
+            if(Music.instance.sounds[i].name == name)
+                return Music.instance.sounds[i];
+        return null;
+    }
     IEnumerator MusicShuffle(float time)
     {
         yield return new WaitForSeconds(time);
