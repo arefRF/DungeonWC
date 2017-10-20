@@ -7,6 +7,12 @@ public class Box : Unit {
     public Trap trap { get; set; }
     public float speed = 3;
     public Key key { get; set; }
+    private AudioSource source;
+
+    void Start()
+    {
+        source = GetComponent<AudioSource>();
+    }
     public void Move(Direction direction)
     {
         if (trap != null)
@@ -17,6 +23,7 @@ public class Box : Unit {
         engine.RemovefromDatabase(this);
         Position = ToolKit.VectorSum(Position, direction);
         engine.AddtoDatabase(this);
+        source.Play();
         StartCoroutine(MoveCo(ToolKit.VectorSum(transform.position, direction)));
     }
 

@@ -8,11 +8,16 @@ public class Enemy_Mage : Enemy {
     public Direction chargedirection { get; set; }
     private Animator animator;
     public float speed = 3;
+    public bool shootingfireball { get; set; }
 
     void Start()
     {
         FireballCharged = false;
+        shootingfireball = false;
         animator = GetComponentInChildren<Animator>();
+        source = GetComponent<AudioSource>();
+        Load_Sounds();
+        sound_detetct = SearchSound("Monster 1");
     }
     public override void SetNextPos()
     {
@@ -50,8 +55,11 @@ public class Enemy_Mage : Enemy {
                 }
             }
             if (selected.Count == 0)
+            {
+                Debug.Log("asf32323232323232323");
                 engine.EnemyMoveFinished();
-            if (selected.Count == 1)
+            }
+            else if (selected.Count == 1)
             {
                 NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(selected[0]));
             }
@@ -122,11 +130,14 @@ public class Enemy_Mage : Enemy {
         {
             if (PlayerPos == engine.player.Position)
             {
+                if(!transform.GetChild(1).GetComponent<SpriteRenderer>().enabled)
+                    source.PlayOneShot(sound_detetct);
                 transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
                 transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
             }
             else
             {
+                //if(!transform.GetChild(2).GetComponent<SpriteRenderer>().enabled)
                 transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
                 transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = true;
             }
@@ -146,7 +157,7 @@ public class Enemy_Mage : Enemy {
             // transform.position = NextPos;
 
         }
-        else
+        else if(!shootingfireball)
         {
             transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
             transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
@@ -164,6 +175,7 @@ public class Enemy_Mage : Enemy {
 
     public void ShootFireBall(Direction direction)
     {
+        shootingfireball = true;
         transform.GetChild(3).GetComponent<CircleCollider2D>().enabled = true;
         animator.SetBool("Charge", false);
         GameObject g = transform.GetChild(1).gameObject;
@@ -205,10 +217,11 @@ public class Enemy_Mage : Enemy {
             g.transform.position = Vector3.MoveTowards(g.transform.position, nextpos, Time.deltaTime * 15);
             yield return null;
         }
+        shootingfireball = false;
         g.GetComponent<SpriteRenderer>().enabled = false;
         g.transform.localPosition = new Vector3(-2f, 2.2f, 10);
         transform.GetChild(3).GetComponent<CircleCollider2D>().enabled = false;
-
+        engine.EnemyMoveFinished();
     }
 
     public override Clonable Clone()

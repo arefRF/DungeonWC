@@ -187,6 +187,7 @@ public class Engine : MonoBehaviour {
             List<Unit> temp = units[(int)switchh.Position.x, (int)switchh.Position.y];
             if (temp.Count == 1)
             {
+                switchh.UnlockSound();
                 endtile.Lock();
                 switchh.isOn = false;
                 switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
@@ -201,6 +202,7 @@ public class Engine : MonoBehaviour {
             {
                 if (temp[i] is Player || temp[i] is Box || temp[i] is Enemy)
                 {
+                    switchh.UnlockSound();
                     endtile.Unlock();
                     switchh.isOn = true;
                     switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;

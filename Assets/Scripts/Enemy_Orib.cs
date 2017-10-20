@@ -8,6 +8,9 @@ public class Enemy_Orib : Enemy {
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        source = GetComponent<AudioSource>();
+        Load_Sounds();
+        sound_detetct = SearchSound("Monster 1");
     }
     public override void SetNextPos()
     {
@@ -83,6 +86,7 @@ public class Enemy_Orib : Enemy {
         }
         if (PlayerPos == engine.player.Position)
         {
+            source.PlayOneShot(sound_detetct);
             transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
             transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
         }
