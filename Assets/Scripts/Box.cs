@@ -14,8 +14,14 @@ public class Box : Unit {
 
 	public bool CanMoveToPosition(Vector2 position)
     {
-        if (position.x >= 0 && position.y >= 0 && position.x < engine.sizeX && position.y < engine.sizeY)
-            return true;
-        return false;
+        if (!(position.x >= 0 && position.y >= 0 && position.x < engine.sizeX && position.y < engine.sizeY))
+            return false;
+        List<Unit> units = engine.units[(int)position.x, (int)position.y];
+        for(int i=0; i<units.Count; i++)
+        {
+            if (units[i] is Box || units[i] is Block || units[i] is Enemy)
+                return false;
+        }
+        return true;
     }
 }
