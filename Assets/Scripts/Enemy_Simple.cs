@@ -71,7 +71,10 @@ public class Enemy_Simple : Enemy {
 
     public override void Move()
     {
-
+        if (movedir == Direction.Right)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        else if (movedir == Direction.Left)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         if (Position == NextPos)
         {
             transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;

@@ -142,7 +142,10 @@ public class Enemy_Mage : Enemy {
 
     public override void Move()
     {
-
+        if (movedir == Direction.Right)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        else if (movedir == Direction.Left)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         if (Position != NextPos)
         {
             if (PlayerPos == engine.player.Position)
