@@ -235,6 +235,7 @@ public class Player : Unit {
         List<Unit> units = engine.units[(int)position.x, (int)position.y];
         for(int i=0; i<units.Count; i++)
         {
+            Debug.Log(units[i]);
             if (units[i] is Block)
                 return false;
             if(units[i] is Box)

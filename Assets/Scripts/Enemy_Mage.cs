@@ -189,19 +189,20 @@ public class Enemy_Mage : Enemy {
     }
     private IEnumerator MoveCoFireBall(Direction direction)
     {
-        GameObject g = transform.GetChild(1).gameObject;
-        Vector2 nextpos = new Vector2(0,0);
+        GameObject g = transform.GetChild(3).gameObject;
+        Vector3 nextpos = new Vector3(0,0, 10);
         switch (direction)
         {
-            case Direction.Down: nextpos = new Vector2(g.transform.position.x, 0); break;
-            case Direction.Left: nextpos = new Vector2(0, g.transform.position.y); break;
-            case Direction.Right: nextpos = new Vector2(engine.sizeX, g.transform.position.y); break;
-            case Direction.Up: nextpos = new Vector2(g.transform.position.x, engine.sizeY); break;
+            case Direction.Down: nextpos = new Vector3(g.transform.position.x, 0, 10); break;
+            case Direction.Left: nextpos = new Vector3(0, g.transform.position.y, 10); break;
+            case Direction.Right: nextpos = new Vector3(engine.sizeX, g.transform.position.y, 10); break;
+            case Direction.Up: nextpos = new Vector3(g.transform.position.x, engine.sizeY, 10); break;
         }
+        g.GetComponent<SpriteRenderer>().enabled = true;
         while (g.transform.position.x > 0 && g.transform.position.y > 0 && g.transform.position.x < engine.sizeX && g.transform.position.y < engine.sizeY)
         {
+            g.GetComponent<SpriteRenderer>().enabled = true;
             g.transform.position = Vector3.MoveTowards(g.transform.position, nextpos, Time.deltaTime * 15);
-            //Debug.Log("aslb");
             yield return null;
         }
         g.GetComponent<SpriteRenderer>().enabled = false;
@@ -213,6 +214,16 @@ public class Enemy_Mage : Enemy {
     {
         return new ClonableEnemy_Mage(this);
     }
+
+    public override void Die()
+    {
+        transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+        transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
+        GetComponentInChildren<Animator>().SetBool("Death", true);
+        engine.RemovefromDatabase(this);
+        Clone();
+        isdead = true;
+    }
 }
 
 public class ClonableEnemy_Mage : Clonable
@@ -220,6 +231,7 @@ public class ClonableEnemy_Mage : Clonable
     public Direction fireballdirection;
     public bool charged;
     public Vector2 playerpos;
+    public bool isdead, b1, b2;
     public ClonableEnemy_Mage(Enemy_Mage enemy)
     {
         original = enemy;
@@ -228,6 +240,9 @@ public class ClonableEnemy_Mage : Clonable
         charged = enemy.FireballCharged;
         fireballdirection = enemy.chargedirection;
         playerpos = enemy.PlayerPostemp;
+        isdead = enemy.isdead;
+        b1 = enemy.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled;
+        b2 = enemy.transform.GetChild(2).GetComponent<SpriteRenderer>().enabled;
     }
 
     public override void Undo()
@@ -244,5 +259,9 @@ public class ClonableEnemy_Mage : Clonable
         enemy.FireballCharged = charged;
         enemy.chargedirection = fireballdirection;
         enemy.PlayerPos = playerpos;
+        enemy.GetComponentInChildren<Animator>().SetBool("Death", false);
+        enemy.isdead = isdead;
+        enemy.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = b1;
+        enemy.transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = b2;
     }
 }

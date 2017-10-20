@@ -8,6 +8,8 @@ public class Enemy : Unit {
     public Key key { get; set; }
     public Vector2 PlayerPos { get; set; }
     public Vector2 PlayerPostemp { get; set; }
+
+    public bool isdead { get; set; }
     public virtual void SetNextPos()
     {
        
@@ -32,7 +34,7 @@ public class Enemy : Unit {
         List<Unit> units = engine.units[(int)position.x, (int)position.y];
         for (int i = 0; i < units.Count; i++)
         {
-            if (units[i] is Box || units[i] is Block)
+            if (units[i] is Box || units[i] is Block ||  units[i] is TNT)
                 return false;
         }
         return true;
@@ -52,5 +54,10 @@ public class Enemy : Unit {
                 transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
             }
         }
+    }
+
+    public virtual void Die()
+    {
+        
     }
 }

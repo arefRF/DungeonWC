@@ -18,7 +18,7 @@ public class Fireball : MonoBehaviour {
         {
             if (unit == transform.parent.GetComponent<Enemy>())
                 return;
-            unit.GetComponentInChildren<Animator>().SetBool("Death", true);
+            (unit as Enemy).Die();
         }
         else if(unit is Box)
         {
