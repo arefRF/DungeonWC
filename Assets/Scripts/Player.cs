@@ -284,6 +284,11 @@ public class Player : Unit {
         engine.RemovefromDatabase(this);
         Clone();
         isdead = true;
+        StartCoroutine(ShowAfterWait());
+    }
+    private IEnumerator ShowAfterWait()
+    {
+        yield return new WaitForSeconds(2f);
         GameObject.Find("Input").GetComponent<GetInput>().inMenuShow();
     }
 
