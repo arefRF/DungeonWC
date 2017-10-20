@@ -67,6 +67,17 @@ public class Player : Unit {
             transform.GetChild(0).rotation = Quaternion.Euler(0, 180, 0);
             animator.SetInteger("Walk", 1);
         }
+
+        else if (dir == Direction.Up)
+        {
+            transform.GetChild(0).rotation = Quaternion.Euler(0, 0, 0);
+            animator.SetInteger("Walk", 2);
+        }
+        else if(dir == Direction.Down)
+        {
+            transform.GetChild(0).rotation = Quaternion.Euler(0, 0, 0);
+            animator.SetInteger("Walk", 3);
+        }
     }
     private bool CanMoveToPosition(Vector2 position, Direction direction)
     {
