@@ -46,7 +46,7 @@ public class Engine : MonoBehaviour {
 
     public void Move(Direction direciton)
     {
-        if (turn == Turn.PlayerTurn)
+        if (turn == Turn.PlayerTurn && !player.isdead)
         {
             turn = Turn.EnemyTurn;
             player.Move(direciton);
@@ -67,8 +67,8 @@ public class Engine : MonoBehaviour {
         {
             if(t[i] is Trap && !(t[i] as Trap).isdestroyed)
             {
-                Debug.Log("player die with trap");
-                (t[i] as Trap).isdestroyed = true;
+                player.Die();
+                (t[i] as Trap).Destroy();
             }
         }
         if (player.Position == endtile.Position)
@@ -130,6 +130,7 @@ public class Engine : MonoBehaviour {
                     if(traps[j].Position == enemies[i].Position)
                     {
                         enemies[i].Die();
+                        traps[j].Destroy();
                     }
                 }
             }
