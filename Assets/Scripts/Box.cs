@@ -16,6 +16,7 @@ public class Box : Unit {
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = ToolKit.VectorSum(Position, direction);
+        engine.AddtoDatabase(this);
         StartCoroutine(MoveCo(ToolKit.VectorSum(transform.position, direction)));
     }
 
@@ -61,7 +62,6 @@ public class Box : Unit {
         }
 
         /// Move Finished
-        engine.AddtoDatabase(this);
         engine.CheckSwitch();
     }
 
