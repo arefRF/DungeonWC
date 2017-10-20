@@ -68,7 +68,7 @@ public class Engine : MonoBehaviour {
             if(t[i] is Trap && !(t[i] as Trap).isdestroyed)
             {
                 player.Die();
-                (t[i] as Trap).isdestroyed = true;
+                (t[i] as Trap).Destroy();
             }
         }
         if (player.Position == endtile.Position)
@@ -130,6 +130,7 @@ public class Engine : MonoBehaviour {
                     if(traps[j].Position == enemies[i].Position)
                     {
                         enemies[i].Die();
+                        traps[j].Destroy();
                     }
                 }
             }

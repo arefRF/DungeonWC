@@ -47,17 +47,24 @@ public class Trap : Unit {
 
     public void Destroy()
     {
+        engine.AddToSnapshot(Clone());
         isdestroyed = true;
+        GetComponent<SpriteRenderer>().enabled = false;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
     }
 }
 
 public class ClonableTrap : Clonable
 {
+    public bool b1, b2, isdes;
     public ClonableTrap(Trap trap)
     {
         original = trap;
         position = trap.Position;
         trasformposition = trap.transform.position;
+        b1 = trap.GetComponent<SpriteRenderer>().enabled;
+        b2 = trap.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+        isdes = trap.isdestroyed;
     }
 
     public override void Undo()
@@ -68,5 +75,16 @@ public class ClonableTrap : Clonable
         trap.Position = position;
         trap.transform.position = trasformposition;
         trap.engine.AddtoDatabase(original);
+        trap.isdestroyed = isdes;
+        if (isdes)
+        {
+            trap.GetComponent<SpriteRenderer>().enabled = false;
+            trap.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+        }
+        else
+        {
+            trap.GetComponent<SpriteRenderer>().enabled = true;
+            trap.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+        }
     }
 }
