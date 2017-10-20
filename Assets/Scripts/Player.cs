@@ -35,15 +35,19 @@ public class Player : Unit {
                 key.transform.position = ToolKit.VectorSum(key.transform.position, direction);
                 engine.AddtoDatabase(key);
             }
-            if(box != null)
+            if (box != null)
             {
                 box.Move(direction);
                 box = null;
             }
             playermoved = true;
+            engine.AddtoDatabase(this);
         }
-        engine.AddtoDatabase(this);
-        MoveFinished(playermoved);
+        else
+        {
+            engine.AddtoDatabase(this);
+            MoveFinished(playermoved);
+        }
     }
 
     public void MoveFinished(bool playermoved)
