@@ -30,6 +30,7 @@ public class Engine : MonoBehaviour {
         currentSnapshot = new Snapshot();
         for (int i = 0; i < enemies.Count; i++)
             enemies[i].UpdatePlayerPos();
+        Checkkey();
         CheckSwitch();
         turn = Turn.PlayerTurn;
     }

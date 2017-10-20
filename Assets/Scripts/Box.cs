@@ -16,9 +16,15 @@ public class Box : Unit {
     public void Move(Direction direction)
     {
         if (trap != null)
+        {
             trap.Move(direction);
+            trap = null;
+        }
         if (key != null)
+        {
             key.Move(direction);
+            key = null;
+        }
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = ToolKit.VectorSum(Position, direction);
