@@ -45,7 +45,6 @@ public class Enemy_Orib : Enemy {
                 selected.Add(i);
             }
         }
-        Debug.Log(selected.Count);
         if (selected.Count == 0)
             engine.EnemyMoveFinished();
         if (selected.Count == 1)

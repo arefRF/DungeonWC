@@ -54,6 +54,8 @@ public class Player : Unit {
 
     public void FakeMove(Direction dir)
     {
+        if (engine.turn == Turn.EnemyTurn)
+            return;
         a_event.dir = dir;
         if (dir == Direction.Right)
         {
