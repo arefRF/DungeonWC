@@ -9,8 +9,6 @@ public class End : Unit {
 	// Use this for initialization
 	void Awake () {
         lockicon = Resources.Load<Sprite>("Branch Lock Icon");
-        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
-        transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = lockicon;
         if (IsLocked)
         {
             transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
@@ -24,11 +22,11 @@ public class End : Unit {
 
     public void Lock()
     {
-        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+       
     }
 
     public void Unlock()
     {
-        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+        
     }
 }

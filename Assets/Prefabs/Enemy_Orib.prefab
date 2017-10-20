@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4697188913781190}
-  - component: {fileID: 114049127337833814}
+  - component: {fileID: 114563779487587690}
   m_Layer: 0
   m_Name: Enemy_Orib
   m_TagString: Untagged
@@ -51,7 +51,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1876282485227004}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: 2, z: 10}
+  m_LocalPosition: {x: 5, y: 6, z: 10}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children:
   - {fileID: 4803755236844688}
@@ -88,7 +88,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114049127337833814
+--- !u!114 &114563779487587690
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
