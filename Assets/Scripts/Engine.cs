@@ -54,6 +54,24 @@ public class Engine : MonoBehaviour {
         //else
           //  ForceMove();
     }
+
+    public void Checkkey()
+    {
+        if (key == null)
+            return;
+        List<Unit> list = units[(int)key.Position.x, (int)key.Position.y];
+        for(int i=0; i<list.Count; i++)
+        {
+            if((list[i] is Enemy && !(list[i] as Enemy).isdead) || list[i] is Player)
+            {
+                key.GetComponent<SpriteRenderer>().enabled = false;
+                key.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+                return;
+            }
+        }
+        key.GetComponent<SpriteRenderer>().enabled = true;
+        key.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+    }
     public void PlayerMoveFinished(bool playermoved)
     {
         if (!playermoved)
@@ -85,6 +103,7 @@ public class Engine : MonoBehaviour {
                 player.key = key;
             }
         }
+        Checkkey();
         CheckSwitch();
         if (enemies.Count == 0)
             EnemyMoveFinished();
@@ -166,6 +185,7 @@ public class Engine : MonoBehaviour {
                     }
                 }
             }
+            Checkkey();
             CheckSwitch();
             counter = 0;
             SnapshotDone();
@@ -224,6 +244,7 @@ public class Engine : MonoBehaviour {
         {
             temp.clones[i].Undo();
         }
+        Checkkey();
         CheckSwitch();
         turn = Turn.PlayerTurn;
     }

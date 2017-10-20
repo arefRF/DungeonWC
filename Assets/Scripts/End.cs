@@ -6,6 +6,7 @@ public class End : Unit {
 
     public bool IsLocked = false;
     public bool hasSwitch = false;
+    private AudioSource source;
 	// Use this for initialization
 	void Awake () {
         
@@ -47,6 +48,9 @@ public class End : Unit {
             transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
         }
         else
+        {
+            source.Play();
             transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
+        }
     }
 }
