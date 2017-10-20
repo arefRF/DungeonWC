@@ -60,7 +60,6 @@ public class Music : MonoBehaviour {
     void Load_Musics()
     {
         sounds = Resources.LoadAll<AudioClip>("Musics");
-        Music.instance.source.volume = 0.4f;
     }
 	
 }
