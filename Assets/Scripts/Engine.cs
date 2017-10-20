@@ -86,7 +86,6 @@ public class Engine : MonoBehaviour {
     {
         for(int i=0; i<enemies.Count; i++)
         {
-            Debug.Log(enemies[i]);
             enemies[i].SetNextPos();
         }
         for(int i=0; i<enemies.Count; i++)
