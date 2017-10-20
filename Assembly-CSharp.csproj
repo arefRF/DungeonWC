@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\AnimationEventPlayer.cs" />
      <Compile Include="Assets\Scripts\Block.cs" />
      <Compile Include="Assets\Scripts\Box.cs" />
+     <Compile Include="Assets\Scripts\CollapseHome.cs" />
      <Compile Include="Assets\Scripts\End.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\Enemy_Gulakh.cs" />
