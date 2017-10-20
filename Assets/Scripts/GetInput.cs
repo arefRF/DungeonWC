@@ -16,6 +16,8 @@ public class GetInput : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            engine.player.FakeMove(Direction.Right);
         if (Input.GetKeyUp(KeyCode.DownArrow))
             engine.Move(Direction.Down);
         else if (Input.GetKeyUp(KeyCode.LeftArrow))

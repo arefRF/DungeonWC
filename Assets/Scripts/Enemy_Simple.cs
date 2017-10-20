@@ -66,6 +66,7 @@ public class Enemy_Simple : Enemy {
 
     public override void Move()
     {
+
         if (Position == NextPos)
         {
             engine.EnemyMoveFinished();
