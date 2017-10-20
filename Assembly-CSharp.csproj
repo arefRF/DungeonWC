@@ -8,9 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
-    <ProjectGuid>{B5993183-8D68-5F19-53D5-AFEAAD510EC3}</ProjectGuid>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{B68E2EEB-6260-EFB6-8C12-374623121E9A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -52,47 +51,47 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AnimationEventPlayer.cs" />
-    <Compile Include="Assets\Scripts\Block.cs" />
-    <Compile Include="Assets\Scripts\Box.cs" />
-    <Compile Include="Assets\Scripts\End.cs" />
-    <Compile Include="Assets\Scripts\Enemy.cs" />
-    <Compile Include="Assets\Scripts\Enemy_Gulakh.cs" />
-    <Compile Include="Assets\Scripts\Enemy_Mage.cs" />
-    <Compile Include="Assets\Scripts\Enemy_Orib.cs" />
-    <Compile Include="Assets\Scripts\Enemy_Simple.cs" />
-    <Compile Include="Assets\Scripts\Engine.cs" />
-    <Compile Include="Assets\Scripts\Fireball.cs" />
-    <Compile Include="Assets\Scripts\GetInput.cs" />
-    <Compile Include="Assets\Scripts\Key.cs" />
-    <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\Starter.cs" />
-    <Compile Include="Assets\Scripts\Switch.cs" />
-    <Compile Include="Assets\Scripts\TNT.cs" />
-    <Compile Include="Assets\Scripts\ToolKit.cs" />
-    <Compile Include="Assets\Scripts\Trap.cs" />
-    <Compile Include="Assets\Scripts\Unit.cs" />
-    <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TestRunner">
-      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Timeline">
-      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.HoloLens">
-      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
+     <Compile Include="Assets\Scripts\AnimationEventPlayer.cs" />
+     <Compile Include="Assets\Scripts\Block.cs" />
+     <Compile Include="Assets\Scripts\Box.cs" />
+     <Compile Include="Assets\Scripts\End.cs" />
+     <Compile Include="Assets\Scripts\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Enemy_Gulakh.cs" />
+     <Compile Include="Assets\Scripts\Enemy_Mage.cs" />
+     <Compile Include="Assets\Scripts\Enemy_Orib.cs" />
+     <Compile Include="Assets\Scripts\Enemy_Simple.cs" />
+     <Compile Include="Assets\Scripts\Engine.cs" />
+     <Compile Include="Assets\Scripts\Fireball.cs" />
+     <Compile Include="Assets\Scripts\GetInput.cs" />
+     <Compile Include="Assets\Scripts\Key.cs" />
+     <Compile Include="Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\Scripts\Starter.cs" />
+     <Compile Include="Assets\Scripts\Switch.cs" />
+     <Compile Include="Assets\Scripts\TNT.cs" />
+     <Compile Include="Assets\Scripts\ToolKit.cs" />
+     <Compile Include="Assets\Scripts\Trap.cs" />
+     <Compile Include="Assets\Scripts\Unit.cs" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Timeline">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -102,4 +101,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  
 </Project>
