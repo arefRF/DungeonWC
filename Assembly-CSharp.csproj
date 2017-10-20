@@ -51,11 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
      <Compile Include="Assets\Resources\Video\VideoScene.cs" />
-=======
      <Compile Include="Assets\ScreamCollider.cs" />
->>>>>>> 24807fe25a1867726325388a799b7177d970b828
      <Compile Include="Assets\Scripts\AnimationEventPlayer.cs" />
      <Compile Include="Assets\Scripts\Block.cs" />
      <Compile Include="Assets\Scripts\Box.cs" />

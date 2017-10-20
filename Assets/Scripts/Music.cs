@@ -22,6 +22,8 @@ public class Music : MonoBehaviour {
             else
             {
                 AudioClip music = SearchMusic("Menu");
+                Music.instance.source.Stop();
+                Music.instance.StopAllCoroutines();
                 Music.instance.source.PlayOneShot(music);
                 StartCoroutine(MusicShuffle(music.length));
             }
@@ -30,12 +32,27 @@ public class Music : MonoBehaviour {
         }
         else
         {
+
+            
             instance = this;
             source = GetComponent<AudioSource>();
             Load_Musics();
             int i = Random.Range(1, 3);
-            
-          
+            if (SceneManager.GetActiveScene().name == "Video")
+                Music.instance.source.Stop();
+            else if (SceneManager.GetActiveScene().name == "Intro")
+            {
+                AudioClip music = SearchMusic("Home");
+                Music.instance.source.PlayOneShot(music);
+            }
+            else
+            {
+                AudioClip music = SearchMusic("Menu");
+                Music.instance.source.Stop();
+                Music.instance.StopAllCoroutines();
+                Music.instance.source.PlayOneShot(music);
+                StartCoroutine(MusicShuffle(music.length));
+            }
         }
        
 

@@ -8,6 +8,11 @@ public class VideoScene : MonoBehaviour {
 	void Start () {
         StartCoroutine(Wait());
 	}
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.S))
+            SceneManager.LoadScene("Intro");
+    }
 
     private IEnumerator Wait()
     {
