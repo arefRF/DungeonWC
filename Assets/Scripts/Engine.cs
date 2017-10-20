@@ -35,13 +35,25 @@ public class Engine : MonoBehaviour {
         turn = Turn.PlayerTurn;
     }
 
+    public void ForceMove()
+    {
+        Debug.Log("force move");
+        player.ForceMove();
+        for(int i=0; i<enemies.Count; i++)
+        {
+            enemies[i].ForceMove();
+        }
+    }
+
     public void Move(Direction direciton)
     {
-        if(turn == Turn.PlayerTurn)
+        if (turn == Turn.PlayerTurn)
         {
             turn = Turn.EnemyTurn;
             player.Move(direciton);
         }
+        else
+            ForceMove();
     }
 
     public void PlayerMoveFinieshed(bool playermoved)
@@ -102,7 +114,14 @@ public class Engine : MonoBehaviour {
             for(int i=0; i<enemies.Count; i++)
             {
                 enemies[i].UpdatePlayerPos();
-                for(int j=0; j<traps.Count; j++)
+                if (key != null && enemies[i].key == null)
+                {
+                    if (enemies[i].Position == key.Position)
+                    {
+                        enemies[i].key = key;
+                    }
+                }
+                for (int j=0; j<traps.Count; j++)
                 {
                     if(traps[j].Position == enemies[i].Position)
                     {

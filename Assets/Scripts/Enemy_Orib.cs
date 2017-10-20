@@ -82,6 +82,14 @@ public class Enemy_Orib : Enemy {
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = NextPos;
+        if (key != null)
+        {
+            engine.AddToSnapshot(key.Clone());
+            engine.RemovefromDatabase(key);
+            key.Position = Position;
+            key.transform.position = Position;
+            engine.AddtoDatabase(key);
+        }
         animator.SetBool("Walk", true);
         StartCoroutine(MoveCo(NextPos)); 
     }
@@ -118,14 +126,6 @@ public class ClonableEnemy_Orib : Clonable
         original = enemy;
         trasformposition = enemy.transform.position;
         position = enemy.Position;
-        if (key != null)
-        {
-            engine.AddToSnapshot(key.Clone());
-            engine.RemovefromDatabase(key);
-            key.Position = Position;
-            key.transform.position = Position;
-            engine.AddtoDatabase(key);
-        }
         playerpos = enemy.PlayerPostemp;
     }
 

@@ -115,6 +115,7 @@ public class Player : Unit {
         bool playermoved = false;
         if (CanMoveToPosition(temppos, direction))
         {
+            npos = ToolKit.VectorSum(transform.position, direction);
             engine.AddToSnapshot(Clone());
             for (int i = 0; i < engine.enemies.Count; i++)
             {
@@ -156,6 +157,13 @@ public class Player : Unit {
         {
             MoveFinished(playermoved);
         }
+    }
+
+    public void ForceMove()
+    {
+        StopAllCoroutines();
+        transform.position = npos;
+        MoveFinished(true);
     }
 
     public void MoveFinished(bool playermoved)
