@@ -19,7 +19,7 @@ public class Menu : MonoBehaviour {
     }
     public void NewGame()
     {
-        SceneManager.LoadScene("Intro");
+        SceneManager.LoadScene("Video");
     }
 
     public void Retry()

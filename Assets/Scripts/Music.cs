@@ -8,8 +8,29 @@ public class Music : MonoBehaviour {
     private AudioClip[] sounds;
 	// Use this for initialization
 	void Start () {
+        if (SceneManager.GetActiveScene().name == "Start")
+        {
+            AudioClip music = SearchMusic("Menu");
+            Music.instance.source.PlayOneShot(music);
+            StartCoroutine(MusicShuffle(music.length));
+        }
+        else if (SceneManager.GetActiveScene().name == "Intro")
+        {
+            AudioClip music = SearchMusic("Home");
+            Music.instance.source.PlayOneShot(music);
+        }
+        else
+        {
+            AudioClip music = SearchMusic("Menu");
+            Music.instance.source.PlayOneShot(music);
+            StartCoroutine(MusicShuffle(music.length));
+        }
+        if (SceneManager.GetActiveScene().name == "Video")
+            Music.instance.source.Stop();
+
         if (instance != null && instance != this)
         {
+            
             Destroy(this.gameObject);
             return;
         }
@@ -19,23 +40,7 @@ public class Music : MonoBehaviour {
             source = GetComponent<AudioSource>();
             Load_Musics();
             int i = Random.Range(1, 3);
-            if (SceneManager.GetActiveScene().name == "Start")
-            {
-                AudioClip music = SearchMusic("Menu");
-                Music.instance.source.PlayOneShot(music);
-                StartCoroutine(MusicShuffle(music.length));
-            }
-            else if (SceneManager.GetActiveScene().name == "Intro")
-            {
-                AudioClip music = SearchMusic("Home");
-                Music.instance.source.PlayOneShot(music);
-            }
-            else
-            {
-                AudioClip music = SearchMusic("Menu");
-                Music.instance.source.PlayOneShot(music);
-                StartCoroutine(MusicShuffle(music.length));
-            }
+            
           
         }
 
