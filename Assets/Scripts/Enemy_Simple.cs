@@ -44,6 +44,7 @@ public class Enemy_Simple : Enemy {
             engine.EnemyMoveFinished();
         if(selected.Count == 1)
         {
+            movedir = ToolKit.IntToDirection(selected[0]);
             NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(selected[0]));
         }
         else
@@ -63,13 +64,17 @@ public class Enemy_Simple : Enemy {
                     }
                 }
             }
+            movedir = ToolKit.IntToDirection(sel);
             NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(sel));
         }
     }
 
     public override void Move()
     {
-
+        if (movedir == Direction.Right)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        else if (movedir == Direction.Left)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         if (Position == NextPos)
         {
             transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;

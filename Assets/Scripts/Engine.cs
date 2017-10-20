@@ -86,6 +86,8 @@ public class Engine : MonoBehaviour {
         {
             if(t[i] is Trap && !(t[i] as Trap).isdestroyed)
             {
+                Trap trap = (Trap) t[i];
+                trap.TrapSound();
                 player.Die();
                 (t[i] as Trap).Destroy();
             }
@@ -235,6 +237,8 @@ public class Engine : MonoBehaviour {
 
     public void Undo()
     {
+        if (turn != Turn.PlayerTurn)
+            return;
         if (!currentSnapshot.isempty)
             SnapshotDone();
         if (snapshots.Count == 0)
