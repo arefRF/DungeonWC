@@ -31,6 +31,7 @@ public class Engine : MonoBehaviour {
         currentSnapshot = new Snapshot();
         for (int i = 0; i < enemies.Count; i++)
             enemies[i].UpdatePlayerPos();
+        CheckSwitch();
         turn = Turn.PlayerTurn;
     }
 
@@ -100,6 +101,7 @@ public class Engine : MonoBehaviour {
         {
             for(int i=0; i<enemies.Count; i++)
             {
+                enemies[i].UpdatePlayerPos();
                 for(int j=0; j<traps.Count; j++)
                 {
                     if(traps[j].Position == enemies[i].Position)
@@ -130,6 +132,7 @@ public class Engine : MonoBehaviour {
         }
         if(switchh != null && !switchh.isOn)
         {
+            
             List<Unit> temp = units[(int)switchh.Position.x, (int)switchh.Position.y];
             if (temp.Count == 1)
             {
@@ -166,6 +169,7 @@ public class Engine : MonoBehaviour {
         {
             temp.clones[i].Undo();
         }
+        CheckSwitch();
         turn = Turn.PlayerTurn;
     }
 
