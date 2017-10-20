@@ -18,17 +18,17 @@ public class Enemy_Orib : Enemy {
             return;
         }
         List<int> selected = new List<int>();
-        Vector2[] poses = new Vector2[8];
+        Vector2[] poses = new Vector2[4];
         for(int i=0; i<4; i++)
         {
             poses[i] = ToolKit.VectorSum(Position, ToolKit.IntToDirection(i));
         }
-        poses[4] = ToolKit.VectorSum(poses[0], Direction.Right);
-        poses[5] = ToolKit.VectorSum(poses[1], Direction.Down);
-        poses[6] = ToolKit.VectorSum(poses[2], Direction.Left);
-        poses[7] = ToolKit.VectorSum(poses[3], Direction.Up);
+        poses[0] = ToolKit.VectorSum(poses[0], Direction.Right);
+        poses[1] = ToolKit.VectorSum(poses[1], Direction.Down);
+        poses[2] = ToolKit.VectorSum(poses[2], Direction.Left);
+        poses[3] = ToolKit.VectorSum(poses[3], Direction.Up);
         float min = 10000;
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 4; i++)
         {
             Vector2 temppos = poses[i];
             if (!CanMoveToPosition(temppos))
@@ -80,9 +80,9 @@ public class Enemy_Orib : Enemy {
             return;
         }
         engine.AddToSnapshot(Clone());
-        animator.SetBool("Walk", true);
         engine.RemovefromDatabase(this);
         Position = NextPos;
+        animator.SetBool("Walk", true);
         StartCoroutine(MoveCo(NextPos)); 
     }
 
@@ -121,8 +121,8 @@ public class ClonableEnemy_Orib : Clonable
 
     public override void Undo()
     {
-        Debug.Log(original);
-        Enemy_Simple enemy = original as Enemy_Simple;
+        Enemy_Orib enemy = original as Enemy_Orib;
+        enemy.StopAllCoroutines();
         enemy.engine.RemovefromDatabase(original);
         enemy.Position = position;
         enemy.transform.position = trasformposition;

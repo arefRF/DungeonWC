@@ -6,6 +6,7 @@ public class Player : Unit {
 
     public Key key { get; set; }
     public Box box { get; set; }
+    public TNT tnt { get; set; }
     private Animator animator;
     private AnimationEventPlayer a_event;
     public Vector2 prevpos { get; set; }
@@ -15,8 +16,8 @@ public class Player : Unit {
         a_event = GetComponentInChildren<AnimationEventPlayer>();
         animator = GetComponentInChildren<Animator>();
     }
-    
-    public void Move(Direction direction)
+
+    /*public void Move(Direction direction)
     {
         engine.RemovefromDatabase(this);
         Vector2 temppos = ToolKit.VectorSum(Position, direction);
@@ -40,14 +41,55 @@ public class Player : Unit {
                 box.Move(direction);
                 box = null;
             }
+            if(tnt != null)
+            {
+                tnt.Move(direction);
+                tnt = null;
+            }
             playermoved = true;
             engine.AddtoDatabase(this);
         }
         else
         {
+            
             engine.AddtoDatabase(this);
             MoveFinished(playermoved);
         }
+    }*/
+
+    public void Move(Direction direction)
+    {
+        engine.RemovefromDatabase(this);
+        Vector2 temppos = ToolKit.VectorSum(Position, direction);
+        bool playermoved = false;
+        if (CanMoveToPosition(temppos, direction))
+        {
+            engine.AddToSnapshot(Clone());
+            prevpos = Position;
+            Position = temppos;
+            transform.position = ToolKit.VectorSum(transform.position, direction);
+            if (key != null)
+            {
+                engine.AddToSnapshot(key.Clone());
+                engine.RemovefromDatabase(key);
+                key.Position = ToolKit.VectorSum(key.Position, direction);
+                key.transform.position = ToolKit.VectorSum(key.transform.position, direction);
+                engine.AddtoDatabase(key);
+            }
+            if (box != null)
+            {
+                box.Move(direction);
+                box = null;
+            }
+            if (tnt != null)
+            {
+                tnt.Move(direction);
+                tnt = null;
+            }
+            playermoved = true;
+        }
+        engine.AddtoDatabase(this);
+        MoveFinished(playermoved);
     }
 
     public void MoveFinished(bool playermoved)
@@ -58,8 +100,21 @@ public class Player : Unit {
 
     public void FakeMove(Direction dir)
     {
+        return;
         if (engine.turn == Turn.EnemyTurn)
             return;
+        Vector2 temp = ToolKit.VectorSum(Position, dir);
+        if (!CanMoveToPosition(temp, dir))
+            return;
+        List<Unit> units = engine.units[(int)temp.x, (int)temp.y];
+        for (int i = 0; i < units.Count; i++)
+        {
+            if(units[i] is Box)
+            {
+                //player move box animation
+                return;
+            }
+        }
         a_event.dir = dir;
         if (dir == Direction.Right)
         {
@@ -90,11 +145,23 @@ public class Player : Unit {
         List<Unit> units = engine.units[(int)position.x, (int)position.y];
         for(int i=0; i<units.Count; i++)
         {
+            if (units[i] is Block)
+                return false;
             if(units[i] is Box)
             {
-                if ((units[i] as Box).CanMoveToPosition(ToolKit.VectorSum(position, direction)))
+                if ((units[i] as Box).CanMoveToPosition(ToolKit.VectorSum(position, direction), direction))
                 {
                     box = units[i] as Box;
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else if (units[i] is TNT)
+            {
+                if ((units[i] as TNT).CanMoveToPosition(ToolKit.VectorSum(position, direction), direction))
+                {
+                    tnt = units[i] as TNT;
                     return true;
                 }
                 else

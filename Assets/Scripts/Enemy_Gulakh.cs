@@ -2,16 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Simple : Enemy {
+public class Enemy_Gulakh : Enemy {
+
     public float speed = 2;
     private Animator animator;
+
+    private bool Ischarged = false;
 
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
     }
+
     public override void SetNextPos()
     {
+        if (Ischarged)
+        {
+            Shoot();
+            Ischarged = false;
+            return;
+        }
         UpdatePlayerPos();
         if (PlayerPos == Position)
         {
@@ -20,7 +30,7 @@ public class Enemy_Simple : Enemy {
         }
         List<int> selected = new List<int>();
         float min = 10000;
-        for(int i=0; i<4; i++)
+        for (int i = 0; i < 4; i++)
         {
             Vector2 temppos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(i));
             if (!CanMoveToPosition(temppos))
@@ -39,7 +49,7 @@ public class Enemy_Simple : Enemy {
         }
         if (selected.Count == 0)
             engine.EnemyMoveFinished();
-        if(selected.Count == 1)
+        if (selected.Count == 1)
         {
             NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(selected[0]));
         }
@@ -83,7 +93,6 @@ public class Enemy_Simple : Enemy {
 
     }
 
-
     private IEnumerator MoveCo(Vector3 nextPos)
     {
         float remain = (transform.position - nextPos).sqrMagnitude;
@@ -99,31 +108,16 @@ public class Enemy_Simple : Enemy {
         animator.SetBool("KillWalk", false);
         engine.AddtoDatabase(this);
         engine.EnemyMoveFinished();
-        
+
     }
 
-    public override Clonable Clone()
+    public void Charge()
     {
-        return new ClonableEnemy_Simple(this);
-    }
-}
 
-public class ClonableEnemy_Simple : Clonable
-{
-    public ClonableEnemy_Simple(Enemy_Simple enemy)
-    {
-        original = enemy;
-        trasformposition = enemy.transform.position;
-        position = enemy.Position;
     }
 
-    public override void Undo()
+    public void Shoot()
     {
-        Enemy_Simple enemy = original as Enemy_Simple;
-        enemy.StopAllCoroutines();
-        enemy.engine.RemovefromDatabase(original);
-        enemy.Position = position;
-        enemy.transform.position = trasformposition;
-        enemy.engine.AddtoDatabase(original);
+
     }
 }

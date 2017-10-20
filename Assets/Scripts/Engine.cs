@@ -45,6 +45,7 @@ public class Engine : MonoBehaviour {
     {
         if (!playermoved)
         {
+            Debug.Log("here");
             turn = Turn.PlayerTurn;
             return;
         }
@@ -77,7 +78,7 @@ public class Engine : MonoBehaviour {
             enemies[i].Move();
         }
     }
-
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
     public void EnemyMoveFinished()
     {
         counter++;
@@ -91,6 +92,17 @@ public class Engine : MonoBehaviour {
 
     public void CheckSwitch()
     {
+        if(switchh != null && switchh.isOn)
+        {
+            List<Unit> temp = units[(int)switchh.Position.x, (int)switchh.Position.y];
+            if (temp.Count == 1)
+            {
+                endtile.Lock();
+                switchh.isOn = false;
+                switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+            }
+        }
         if(switchh != null && !switchh.isOn)
         {
             List<Unit> temp = units[(int)switchh.Position.x, (int)switchh.Position.y];
@@ -98,6 +110,8 @@ public class Engine : MonoBehaviour {
             {
                 endtile.Lock();
                 switchh.isOn = false;
+                switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
             }
             else
             {
@@ -106,6 +120,9 @@ public class Engine : MonoBehaviour {
                     if (temp[i] is Player || temp[i] is Box || temp[i] is Enemy)
                     {
                         endtile.Unlock();
+                        switchh.isOn = true;
+                        switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+                        switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
                     }
                 }
             }
@@ -124,6 +141,7 @@ public class Engine : MonoBehaviour {
         {
             temp.clones[i].Undo();
         }
+        turn = Turn.PlayerTurn;
     }
 
     public void AddToSnapshot(Clonable clone)

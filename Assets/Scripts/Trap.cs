@@ -2,43 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Box : Unit {
-
-    public Trap trap { get; set; }
+public class Trap : Unit {
 
     public int speed = 4;
     public void Move(Direction direction)
     {
-        if (trap != null)
-            trap.Move(direction);
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = ToolKit.VectorSum(Position, direction);
         StartCoroutine(MoveCo(ToolKit.VectorSum(transform.position, direction)));
     }
 
-	public bool CanMoveToPosition(Vector2 position, Direction direction)
+    public bool CanMoveToPosition(Vector2 position)
     {
         if (!(position.x >= 0 && position.y >= 0 && position.x < engine.sizeX && position.y < engine.sizeY))
             return false;
         List<Unit> units = engine.units[(int)position.x, (int)position.y];
-        for(int i=0; i<units.Count; i++)
+        for (int i = 0; i < units.Count; i++)
         {
             if (units[i] is Box || units[i] is Block || units[i] is Enemy || units[i] is TNT)
                 return false;
-            else if(units[i] is Trap)
-            {
-                if((units[i] as Trap).CanMoveToPosition(ToolKit.VectorSum(Position, direction)))
-                {
-                    trap = units[i] as Trap;
-                    return true;
-                }
-                return false;
-            }
         }
         return true;
     }
-
     private IEnumerator MoveCo(Vector3 nextPos)
     {
         float remain = (transform.position - nextPos).sqrMagnitude;
@@ -55,26 +41,26 @@ public class Box : Unit {
 
     public override Clonable Clone()
     {
-        return new ClonableBox(this);
+        return new ClonableTrap(this);
     }
 }
 
-public class ClonableBox : Clonable
+public class ClonableTrap : Clonable
 {
-    public ClonableBox(Box box)
+    public ClonableTrap(Trap trap)
     {
-        original = box;
-        position = box.Position;
-        trasformposition = box.transform.position;
+        original = trap;
+        position = trap.Position;
+        trasformposition = trap.transform.position;
     }
 
     public override void Undo()
     {
-        Box box = original as Box;
-        box.StopAllCoroutines();
-        box.engine.RemovefromDatabase(original);
-        box.Position = position;
-        box.transform.position = trasformposition;
-        box.engine.AddtoDatabase(original);
+        Trap trap = original as Trap;
+        trap.StopAllCoroutines();
+        trap.engine.RemovefromDatabase(original);
+        trap.Position = position;
+        trap.transform.position = trasformposition;
+        trap.engine.AddtoDatabase(original);
     }
 }
