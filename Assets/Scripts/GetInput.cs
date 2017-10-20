@@ -6,6 +6,7 @@ public class GetInput : MonoBehaviour {
 
     Starter starter;
     Engine engine;
+    public GameObject inMenu;
     // Use this for initialization
     void Start()
     {
@@ -13,6 +14,20 @@ public class GetInput : MonoBehaviour {
         engine = starter.engine;
     }
 
+    public void inMenuShow()
+    {
+        inMenu.SetActive(true);
+    }
+
+    public void inMenuHide()
+    {
+        inMenu.SetActive(false);
+    }
+
+    public void inMenuTrigger()
+    {
+        inMenu.SetActive(!inMenu.activeSelf);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -37,5 +52,7 @@ public class GetInput : MonoBehaviour {
             engine.Undo();
         else if (Input.GetKeyDown(KeyCode.Space))
             engine.Action();
+        else if (Input.GetKeyDown(KeyCode.Escape))
+            inMenuTrigger();
     }
 }
