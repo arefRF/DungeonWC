@@ -57,6 +57,21 @@ public class Player : Unit {
         }
     }*/
 
+    private void GraphicMove(Direction dir)
+    {
+        if(dir == Direction.Left)
+            transform.rotation = Quaternion.Euler(0,180,0);
+        else
+            transform.rotation = Quaternion.Euler(0,0,0);
+        if (dir == Direction.Left || dir == Direction.Right)
+        {
+            animator.SetInteger("Walk", 1);
+        }
+        else if (dir == Direction.Up)
+            animator.SetInteger("Walk", 2);
+        else if (dir == Direction.Down)
+            animator.SetInteger("Walk", 3);
+    }
     public void Move(Direction direction)
     {
         engine.RemovefromDatabase(this);
@@ -69,7 +84,9 @@ public class Player : Unit {
                 engine.AddToSnapshot(engine.enemies[i].Clone());
             prevpos = Position;
             Position = temppos;
-            transform.position = ToolKit.VectorSum(transform.position, direction);
+            a_event.dir = direction;
+            GraphicMove(direction);
+            //transform.position = ToolKit.VectorSum(transform.position, direction);
             if (key != null)
             {
                 engine.AddToSnapshot(key.Clone());
@@ -90,12 +107,16 @@ public class Player : Unit {
             }
             playermoved = true;
         }
-        engine.AddtoDatabase(this);
-        MoveFinished(playermoved);
+        else
+        {
+            engine.AddtoDatabase(this);
+            MoveFinished(playermoved);
+        }
     }
 
     public void MoveFinished(bool playermoved)
     {
+        animator.SetInteger("Walk", 0);
         engine.PlayerMoveFinieshed(playermoved);
     }
 
