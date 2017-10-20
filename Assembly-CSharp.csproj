@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ScreamCollider.cs" />
      <Compile Include="Assets\Scripts\AnimationEventPlayer.cs" />
      <Compile Include="Assets\Scripts\Block.cs" />
      <Compile Include="Assets\Scripts\Box.cs" />
