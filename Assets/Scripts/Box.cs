@@ -6,7 +6,7 @@ public class Box : Unit {
 
     public Trap trap { get; set; }
 
-    public int speed = 4;
+    public float speed = 3;
     public void Move(Direction direction)
     {
         if (trap != null)

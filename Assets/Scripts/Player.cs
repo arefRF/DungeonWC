@@ -10,9 +10,11 @@ public class Player : Unit {
     private Animator animator;
     private AnimationEventPlayer a_event;
     public Vector2 prevpos { get; set; }
-
+    public float speed = 3;
+    private SpriteRenderer sprite;
     void Start()
     {
+        sprite = GetComponent<SpriteRenderer>();
         a_event = GetComponentInChildren<AnimationEventPlayer>();
         animator = GetComponentInChildren<Animator>();
     }
@@ -72,6 +74,40 @@ public class Player : Unit {
         else if (dir == Direction.Down)
             animator.SetInteger("Walk", 3);
     }
+
+    private void BoxMoveAnimation(Direction dir)
+    {
+        transform.GetChild(0).gameObject.SetActive(false);
+        if (dir == Direction.Left)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        else
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        if (dir == Direction.Right || dir == Direction.Left)
+        {
+            sprite.sprite = (Sprite)Resources.Load("Player\\Box 1", typeof(Sprite));
+        }
+        else if (dir == Direction.Up)
+            sprite.sprite = (Sprite)Resources.Load("Player\\Box 3", typeof(Sprite));
+        else if (dir == Direction.Down)
+            sprite.sprite = (Sprite)Resources.Load("Player\\Box 2", typeof(Sprite));
+    }
+
+    private IEnumerator BoxMoveCo(Vector3 nextPos)
+    {
+        float remain = (transform.position - nextPos).sqrMagnitude;
+        while (remain > float.Epsilon)
+        {
+            remain = (transform.position - nextPos).sqrMagnitude;
+            transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * speed);
+            yield return null;
+        }
+
+        /// Move Finished
+        transform.GetChild(0).gameObject.SetActive(true);
+        sprite.sprite = null;
+        engine.PlayerMoveFinieshed(true);
+        engine.AddtoDatabase(this);
+    }
     public void Move(Direction direction)
     {
         engine.RemovefromDatabase(this);
@@ -85,7 +121,7 @@ public class Player : Unit {
             prevpos = Position;
             Position = temppos;
             a_event.dir = direction;
-            GraphicMove(direction);
+            Vector2 nextPos = ToolKit.VectorSum(transform.position, direction);
             //transform.position = ToolKit.VectorSum(transform.position, direction);
             if (key != null)
             {
@@ -95,16 +131,22 @@ public class Player : Unit {
                 key.transform.position = ToolKit.VectorSum(key.transform.position, direction);
                 engine.AddtoDatabase(key);
             }
+
             if (box != null)
             {
+                StartCoroutine(BoxMoveCo(nextPos));
+                BoxMoveAnimation(direction);
                 box.Move(direction);
                 box = null;
             }
-            if (tnt != null)
+            else if (tnt != null)
             {
                 tnt.Move(direction);
                 tnt = null;
             }
+            else
+                GraphicMove(direction);
+
             playermoved = true;
         }
         else
@@ -121,7 +163,7 @@ public class Player : Unit {
     }
 
 
-    public void FakeMove(Direction dir)
+    /*public void FakeMove(Direction dir)
     {
         return;
         if (engine.turn == Turn.EnemyTurn)
@@ -160,7 +202,7 @@ public class Player : Unit {
             transform.GetChild(0).rotation = Quaternion.Euler(0, 0, 0);
             animator.SetInteger("Walk", 3);
         }
-    }
+    }*/
     private bool CanMoveToPosition(Vector2 position, Direction direction)
     {
         if (!(position.x >= 0 && position.y >= 0 && position.x < engine.sizeX && position.y < engine.sizeY))
