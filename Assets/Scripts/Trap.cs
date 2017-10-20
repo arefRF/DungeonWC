@@ -63,7 +63,7 @@ public class ClonableTrap : Clonable
         position = trap.Position;
         trasformposition = trap.transform.position;
         b1 = trap.GetComponent<SpriteRenderer>().enabled;
-        b2 = trap.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+        b2 = trap.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled;
         isdes = trap.isdestroyed;
     }
 
