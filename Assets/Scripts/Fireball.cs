@@ -4,8 +4,27 @@ using UnityEngine;
 
 public class Fireball : MonoBehaviour {
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("hehe");
+        transform.parent.gameObject.GetComponent<Enemy_Mage>().StopAllCoroutines();
+        GetComponent<SpriteRenderer>().enabled = false;
+        transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
+        Unit unit = col.GetComponent<Unit>();
+        if (unit is Player)
+        {
+            Debug.Log("player die");
+        }
+        else if (unit is Enemy)
+        {
+            Debug.Log("enemy diw");
+        }
+        else if(unit is Box)
+        {
+            Debug.Log("box destroy");
+        }
+        else if(unit is TNT)
+        {
+            Debug.Log("tnt boom");
+        }
     }
 }
