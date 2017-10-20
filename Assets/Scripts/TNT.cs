@@ -25,11 +25,12 @@ public class TNT : Unit {
         List<Unit> units = engine.units[(int)position.x, (int)position.y];
         for (int i = 0; i < units.Count; i++)
         {
+
             if (units[i] is Box || units[i] is Block || units[i] is Enemy || units[i] is TNT)
                 return false;
             else if (units[i] is Trap)
             {
-                if ((units[i] as Trap).CanMoveToPosition(ToolKit.VectorSum(Position, direction)))
+                if ((units[i] as Trap).CanMoveToPosition(ToolKit.VectorSum(position, direction)))
                 {
                     trap = units[i] as Trap;
                     return true;

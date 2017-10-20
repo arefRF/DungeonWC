@@ -15,6 +15,8 @@ public class Engine : MonoBehaviour {
     public List<Unit>[,] units {get; set; }
     public List<Enemy> enemies { get; set; }
 
+    public List<Trap> traps { get; set; }
+
     private int counter = 0;
     private List<Snapshot> snapshots;
     private Snapshot currentSnapshot;
@@ -48,6 +50,15 @@ public class Engine : MonoBehaviour {
             Debug.Log("here");
             turn = Turn.PlayerTurn;
             return;
+        }
+        List<Unit> t = units[(int)player.Position.x, (int)player.Position.y];
+        for(int i=0; i<t.Count; i++)
+        {
+            if(t[i] is Trap && !(t[i] as Trap).isdestroyed)
+            {
+                Debug.Log("player die with trap");
+                (t[i] as Trap).isdestroyed = true;
+            }
         }
         if (player.Position == endtile.Position)
         {
@@ -87,6 +98,16 @@ public class Engine : MonoBehaviour {
         counter++;
         if (enemies.Count <= counter)
         {
+            for(int i=0; i<enemies.Count; i++)
+            {
+                for(int j=0; j<traps.Count; j++)
+                {
+                    if(traps[j].Position == enemies[i].Position)
+                    {
+                        Debug.Log("enemie should die");
+                    }
+                }
+            }
             CheckSwitch();
             counter = 0;
             SnapshotDone();

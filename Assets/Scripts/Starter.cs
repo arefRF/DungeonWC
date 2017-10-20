@@ -13,6 +13,7 @@ public class Starter : MonoBehaviour {
         engine.sizeX = (int)Size.x;
         engine.sizeY = (int)Size.y;
         engine.enemies = new List<Enemy>();
+        engine.traps = new List<Trap>();
         Init();
         engine.Begin();
 	}
@@ -51,6 +52,10 @@ public class Starter : MonoBehaviour {
             {
                 engine.player = unit as Player;
                 (unit as Player).prevpos = unit.Position;
+            }
+            else if(unit is Trap)
+            {
+                engine.traps.Add(unit as Trap);
             }
             else if(unit is End)
             {
