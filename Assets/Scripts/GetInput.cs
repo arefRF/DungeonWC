@@ -18,6 +18,9 @@ public class GetInput : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
             engine.player.FakeMove(Direction.Right);
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            engine.player.FakeMove(Direction.Left);
+
         if (Input.GetKeyUp(KeyCode.DownArrow))
             engine.Move(Direction.Down);
         else if (Input.GetKeyUp(KeyCode.LeftArrow))
