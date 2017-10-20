@@ -71,6 +71,7 @@ public class Starter : MonoBehaviour {
             }
             else if(unit is Enemy)
             {
+                Debug.Log(unit);
                 engine.enemies.Add(unit as Enemy);
                 (unit as Enemy).PlayerPos = unit.Position;
             }

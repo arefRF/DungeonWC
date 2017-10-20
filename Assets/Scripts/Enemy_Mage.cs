@@ -23,6 +23,7 @@ public class Enemy_Mage : Enemy {
             return;
         }
         UpdatePlayerPos();
+        Debug.Log(PlayerPos);
         if (PlayerPos == Position)
         {
             NextPos = Position;
