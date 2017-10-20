@@ -121,6 +121,16 @@ public class Enemy_Mage : Enemy {
 
         if (Position != NextPos)
         {
+            if (PlayerPos == engine.player.Position)
+            {
+                transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+                transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
+            }
+            else
+            {
+                transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+                transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = true;
+            }
             engine.AddToSnapshot(Clone());
             engine.RemovefromDatabase(this);
             Position = NextPos;
@@ -134,11 +144,15 @@ public class Enemy_Mage : Enemy {
             }
             animator.SetBool("Walk", true);
             StartCoroutine(MoveCo(NextPos));
-           // transform.position = NextPos;
-           
+            // transform.position = NextPos;
+
         }
         else
+        {
+            transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+            transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
             engine.EnemyMoveFinished();
+        }
     }
 
     public void ChargeFireBall(Direction direction)
