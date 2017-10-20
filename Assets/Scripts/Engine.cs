@@ -92,6 +92,17 @@ public class Engine : MonoBehaviour {
 
     public void CheckSwitch()
     {
+        if(switchh != null && switchh.isOn)
+        {
+            List<Unit> temp = units[(int)switchh.Position.x, (int)switchh.Position.y];
+            if (temp.Count == 1)
+            {
+                endtile.Lock();
+                switchh.isOn = false;
+                switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+            }
+        }
         if(switchh != null && !switchh.isOn)
         {
             List<Unit> temp = units[(int)switchh.Position.x, (int)switchh.Position.y];
@@ -99,6 +110,8 @@ public class Engine : MonoBehaviour {
             {
                 endtile.Lock();
                 switchh.isOn = false;
+                switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
             }
             else
             {
@@ -107,6 +120,9 @@ public class Engine : MonoBehaviour {
                     if (temp[i] is Player || temp[i] is Box || temp[i] is Enemy)
                     {
                         endtile.Unlock();
+                        switchh.isOn = true;
+                        switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+                        switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
                     }
                 }
             }
