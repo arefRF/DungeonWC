@@ -8,7 +8,7 @@ public class Fireball : MonoBehaviour {
     {
         transform.parent.gameObject.GetComponent<Enemy_Mage>().StopAllCoroutines();
         GetComponent<SpriteRenderer>().enabled = false;
-        transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
+        transform.localPosition = new Vector3(-2f, 2.2f, 10);
         Unit unit = col.GetComponent<Unit>();
         if (unit is Player)
         {

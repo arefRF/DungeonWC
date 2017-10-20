@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class Enemy_Mage : Enemy {
 
-    public bool FireballCharged = false;
-    public Direction chargedirection;
+    public bool FireballCharged { get; set; }
+    public Direction chargedirection { get; set; }
+    private Animator animator;
+    public float speed = 3;
+
+    void Start()
+    {
+        FireballCharged = false;
+        animator = GetComponentInChildren<Animator>();
+    }
     public override void SetNextPos()
     {
         if (FireballCharged)
@@ -114,10 +122,13 @@ public class Enemy_Mage : Enemy {
             engine.AddToSnapshot(Clone());
             engine.RemovefromDatabase(this);
             Position = NextPos;
-            transform.position = NextPos;
-            engine.AddtoDatabase(this);
+            animator.SetBool("Walk", true);
+            StartCoroutine(MoveCo(NextPos));
+           // transform.position = NextPos;
+           
         }
-        engine.EnemyMoveFinished();
+        else
+            engine.EnemyMoveFinished();
     }
 
     public void ChargeFireBall(Direction direction)
@@ -125,16 +136,34 @@ public class Enemy_Mage : Enemy {
         engine.AddToSnapshot(Clone());
         chargedirection = direction;
         FireballCharged = true;
+        animator.SetBool("Charge",true);
     }
 
     public void ShootFireBall(Direction direction)
     {
+        animator.SetBool("Charge", false);
         GameObject g = transform.GetChild(1).gameObject;
         g.GetComponent<SpriteRenderer>().enabled = true;
-        StartCoroutine(MoveCo(direction));
+        StartCoroutine(MoveCoFireBall(direction));
     }
+    private IEnumerator MoveCo(Vector3 nextPos)
+    {
+        float remain = (transform.position - nextPos).sqrMagnitude;
+        while (remain > float.Epsilon)
+        {
+            remain = (transform.position - nextPos).sqrMagnitude;
+            transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * speed);
+            yield return null;
+        }
 
-    private IEnumerator MoveCo(Direction direction)
+        /// Move Finished
+        animator.SetBool("Walk", false);
+        //animator.SetBool("KillWalk", false);
+        engine.AddtoDatabase(this);
+        engine.EnemyMoveFinished();
+
+    }
+    private IEnumerator MoveCoFireBall(Direction direction)
     {
         GameObject g = transform.GetChild(1).gameObject;
         Vector2 nextpos = new Vector2(0,0);
@@ -147,12 +176,12 @@ public class Enemy_Mage : Enemy {
         }
         while (g.transform.position.x > 0 && g.transform.position.y > 0 && g.transform.position.x < engine.sizeX && g.transform.position.y < engine.sizeY)
         {
-            g.transform.position = Vector3.MoveTowards(g.transform.position, nextpos, Time.deltaTime * 1);
+            g.transform.position = Vector3.MoveTowards(g.transform.position, nextpos, Time.deltaTime * 15);
             //Debug.Log("aslb");
             yield return null;
         }
         g.GetComponent<SpriteRenderer>().enabled = false;
-        g.transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
+        g.transform.localPosition = new Vector3(-2f, 2.2f, 10);
 
     }
 
@@ -181,7 +210,7 @@ public class ClonableEnemy_Mage : Clonable
         enemy.StopAllCoroutines();
         GameObject g = enemy.transform.GetChild(1).gameObject;
         g.GetComponent<SpriteRenderer>().enabled = false;
-        g.transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
+        g.transform.localPosition = new Vector3(-2f, 2.2f, 10);
         enemy.engine.RemovefromDatabase(original);
         enemy.Position = position;
         enemy.transform.position = trasformposition;
