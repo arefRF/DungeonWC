@@ -6,6 +6,7 @@ public class Player : Unit {
 
     public Key key { get; set; }
     public Box box { get; set; }
+    public TNT tnt { get; set; }
     private Animator animator;
     private AnimationEventPlayer a_event;
     public Vector2 prevpos { get; set; }
@@ -40,11 +41,17 @@ public class Player : Unit {
                 box.Move(direction);
                 box = null;
             }
+            if(tnt != null)
+            {
+                tnt.Move(direction);
+                tnt = null;
+            }
             playermoved = true;
             engine.AddtoDatabase(this);
         }
         else
         {
+            
             engine.AddtoDatabase(this);
             MoveFinished(playermoved);
         }
@@ -60,6 +67,18 @@ public class Player : Unit {
     {
         if (engine.turn == Turn.EnemyTurn)
             return;
+        Vector2 temp = ToolKit.VectorSum(Position, dir);
+        if (!CanMoveToPosition(temp, dir))
+            return;
+        List<Unit> units = engine.units[(int)temp.x, (int)temp.y];
+        for (int i = 0; i < units.Count; i++)
+        {
+            if(units[i] is Box)
+            {
+                //player move box animation
+                return;
+            }
+        }
         a_event.dir = dir;
         if (dir == Direction.Right)
         {
@@ -92,9 +111,19 @@ public class Player : Unit {
         {
             if(units[i] is Box)
             {
-                if ((units[i] as Box).CanMoveToPosition(ToolKit.VectorSum(position, direction)))
+                if ((units[i] as Box).CanMoveToPosition(ToolKit.VectorSum(position, direction), direction))
                 {
                     box = units[i] as Box;
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else if (units[i] is TNT)
+            {
+                if ((units[i] as TNT).CanMoveToPosition(ToolKit.VectorSum(position, direction), direction))
+                {
+                    tnt = units[i] as TNT;
                     return true;
                 }
                 else

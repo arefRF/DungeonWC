@@ -45,6 +45,7 @@ public class Engine : MonoBehaviour {
     {
         if (!playermoved)
         {
+            Debug.Log("here");
             turn = Turn.PlayerTurn;
             return;
         }
@@ -77,7 +78,7 @@ public class Engine : MonoBehaviour {
             enemies[i].Move();
         }
     }
-
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
     public void EnemyMoveFinished()
     {
         counter++;
@@ -124,6 +125,7 @@ public class Engine : MonoBehaviour {
         {
             temp.clones[i].Undo();
         }
+        turn = Turn.PlayerTurn;
     }
 
     public void AddToSnapshot(Clonable clone)

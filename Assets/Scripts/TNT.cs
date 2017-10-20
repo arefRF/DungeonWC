@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Box : Unit {
+public class TNT : Unit {
 
     public Trap trap { get; set; }
 
@@ -17,18 +17,18 @@ public class Box : Unit {
         engine.AddtoDatabase(this);
     }
 
-	public bool CanMoveToPosition(Vector2 position, Direction direction)
+    public bool CanMoveToPosition(Vector2 position, Direction direction)
     {
         if (!(position.x >= 0 && position.y >= 0 && position.x < engine.sizeX && position.y < engine.sizeY))
             return false;
         List<Unit> units = engine.units[(int)position.x, (int)position.y];
-        for(int i=0; i<units.Count; i++)
+        for (int i = 0; i < units.Count; i++)
         {
             if (units[i] is Box || units[i] is Block || units[i] is Enemy || units[i] is TNT)
                 return false;
-            else if(units[i] is Trap)
+            else if (units[i] is Trap)
             {
-                if((units[i] as Trap).CanMoveToPosition(ToolKit.VectorSum(Position, direction)))
+                if ((units[i] as Trap).CanMoveToPosition(ToolKit.VectorSum(Position, direction)))
                 {
                     trap = units[i] as Trap;
                     return true;
@@ -39,27 +39,33 @@ public class Box : Unit {
         return true;
     }
 
+    public void Explode()
+    {
+
+    }
+
     public override Clonable Clone()
     {
-        return new ClonableBox(this);
+        return new ClonableTNT(this);
     }
+
 }
 
-public class ClonableBox : Clonable
+public class ClonableTNT : Clonable
 {
-    public ClonableBox(Box box)
+    public ClonableTNT(TNT tnt)
     {
-        original = box;
-        position = box.Position;
-        trasformposition = box.transform.position;
+        original = tnt;
+        position = tnt.Position;
+        trasformposition = tnt.transform.position;
     }
 
     public override void Undo()
     {
-        Box box = original as Box;
-        box.engine.RemovefromDatabase(original);
-        box.Position = position;
-        box.transform.position = trasformposition;
-        box.engine.AddtoDatabase(original);
+        TNT tnt = original as TNT;
+        tnt.engine.RemovefromDatabase(original);
+        tnt.Position = position;
+        tnt.transform.position = trasformposition;
+        tnt.engine.AddtoDatabase(original);
     }
 }
