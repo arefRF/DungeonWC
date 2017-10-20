@@ -23,7 +23,7 @@ public class Enemy_Orib : Enemy {
         {
             poses[i] = ToolKit.VectorSum(Position, ToolKit.IntToDirection(i));
         }
-        for(int i=0; i<8; i++)
+        for(int i=0; i<4; i++)
         {
             poses[i + 4] = ToolKit.VectorSum(poses[i], ToolKit.IntToDirection(i));
         }
