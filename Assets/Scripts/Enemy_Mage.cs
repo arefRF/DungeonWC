@@ -111,6 +111,7 @@ public class Enemy_Mage : Enemy {
     {
         if (Position != NextPos)
         {
+            engine.AddToSnapshot(Clone());
             engine.RemovefromDatabase(this);
             Position = NextPos;
             transform.position = NextPos;
@@ -121,6 +122,7 @@ public class Enemy_Mage : Enemy {
 
     public void ChargeFireBall(Direction direction)
     {
+        engine.AddToSnapshot(Clone());
         chargedirection = direction;
         FireballCharged = true;
     }
@@ -145,7 +147,7 @@ public class Enemy_Mage : Enemy {
         }
         while (g.transform.position.x > 0 && g.transform.position.y > 0 && g.transform.position.x < engine.sizeX && g.transform.position.y < engine.sizeY)
         {
-            g.transform.position = Vector3.MoveTowards(g.transform.position, nextpos, Time.deltaTime * 40);
+            g.transform.position = Vector3.MoveTowards(g.transform.position, nextpos, Time.deltaTime * 1);
             //Debug.Log("aslb");
             yield return null;
         }
@@ -177,6 +179,9 @@ public class ClonableEnemy_Mage : Clonable
     {
         Enemy_Mage enemy = original as Enemy_Mage;
         enemy.StopAllCoroutines();
+        GameObject g = enemy.transform.GetChild(1).gameObject;
+        g.GetComponent<SpriteRenderer>().enabled = false;
+        g.transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
         enemy.engine.RemovefromDatabase(original);
         enemy.Position = position;
         enemy.transform.position = trasformposition;

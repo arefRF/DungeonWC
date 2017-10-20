@@ -85,8 +85,9 @@ public class Engine : MonoBehaviour {
     public void EnemyMoveFinished()
     {
         counter++;
-        if (enemies.Count == counter)
+        if (enemies.Count <= counter)
         {
+            CheckSwitch();
             counter = 0;
             SnapshotDone();
             turn = Turn.PlayerTurn;
