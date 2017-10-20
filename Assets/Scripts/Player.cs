@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player : Unit {
 
-    public Key key;
-
+    public Key key { get; set; }
+    public Box box { get; set; }
     public Vector2 prevpos { get; set; }
     public void Move(Direction direction)
     {
@@ -14,11 +14,23 @@ public class Player : Unit {
         bool playermoved = false;
         if (CanMoveToPosition(temppos, direction))
         {
+            engine.AddToSnapshot(Clone());
             prevpos = Position;
             Position = temppos;
             transform.position = ToolKit.VectorSum(transform.position, direction);
-            if(key != null)
+            if (key != null)
+            {
+                engine.AddToSnapshot(key.Clone());
+                engine.RemovefromDatabase(key);
+                key.Position = ToolKit.VectorSum(key.Position, direction);
                 key.transform.position = ToolKit.VectorSum(key.transform.position, direction);
+                engine.AddtoDatabase(key);
+            }
+            if(box != null)
+            {
+                box.Move(direction);
+                box = null;
+            }
             playermoved = true;
         }
         engine.AddtoDatabase(this);
@@ -41,7 +53,7 @@ public class Player : Unit {
             {
                 if ((units[i] as Box).CanMoveToPosition(ToolKit.VectorSum(position, direction)))
                 {
-                    (units[i] as Box).Move(direction);
+                    box = units[i] as Box;
                     return true;
                 }
                 else
@@ -53,5 +65,37 @@ public class Player : Unit {
             }
         }
         return true;
+    }
+
+    public override Clonable Clone()
+    {
+        return new ClonablePlayer(this);
+    }
+}
+
+public class ClonablePlayer: Clonable
+{
+    public Key key;
+    public Vector2 prevpos;
+
+
+    public ClonablePlayer(Player player)
+    {
+        original = player;
+        position = player.Position;
+        key = player.key;
+        prevpos = player.prevpos;
+        trasformposition = player.transform.position;
+    }
+
+    public override void Undo()
+    {
+        Player player = original as Player;
+        player.engine.RemovefromDatabase(original);
+        player.Position = position;
+        player.key = key;
+        player.prevpos = prevpos;
+        player.transform.position = trasformposition;
+        player.engine.AddtoDatabase(original);
     }
 }
