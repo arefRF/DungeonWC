@@ -64,8 +64,10 @@
      <Compile Include="Assets\Scripts\Fireball.cs" />
      <Compile Include="Assets\Scripts\GetInput.cs" />
      <Compile Include="Assets\Scripts\Key.cs" />
+     <Compile Include="Assets\Scripts\Menu.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Starter.cs" />
+     <Compile Include="Assets\Scripts\StartScene.cs" />
      <Compile Include="Assets\Scripts\Switch.cs" />
      <Compile Include="Assets\Scripts\TNT.cs" />
      <Compile Include="Assets\Scripts\ToolKit.cs" />
