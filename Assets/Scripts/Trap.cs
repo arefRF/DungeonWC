@@ -6,6 +6,15 @@ public class Trap : Unit {
 
     public int speed = 4;
     public bool isdestroyed = false;
+    private AudioSource source;
+
+    void Start()
+    {
+        source = GetComponent<AudioSource>();
+    }
+    public void TrapSound(){
+        source.Play();
+    }
     public void Move(Direction direction)
     {
         engine.AddToSnapshot(Clone());
@@ -13,6 +22,7 @@ public class Trap : Unit {
         Position = ToolKit.VectorSum(Position, direction);
         StartCoroutine(MoveCo(ToolKit.VectorSum(transform.position, direction)));
     }
+
 
     public bool CanMoveToPosition(Vector2 position)
     {

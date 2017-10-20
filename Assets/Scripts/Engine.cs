@@ -86,6 +86,8 @@ public class Engine : MonoBehaviour {
         {
             if(t[i] is Trap && !(t[i] as Trap).isdestroyed)
             {
+                Trap trap = (Trap) t[i];
+                trap.TrapSound();
                 player.Die();
                 (t[i] as Trap).Destroy();
             }
