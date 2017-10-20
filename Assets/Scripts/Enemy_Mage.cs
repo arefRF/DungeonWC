@@ -9,7 +9,9 @@ public class Enemy_Mage : Enemy {
     private Animator animator;
     public float speed = 3;
     public bool shootingfireball { get; set; }
-
+    private AudioClip[] sounds;
+    private AudioSource source;
+    private AudioClip sound_detect;
     void Start()
     {
         FireballCharged = false;
@@ -17,7 +19,19 @@ public class Enemy_Mage : Enemy {
         animator = GetComponentInChildren<Animator>();
         source = GetComponent<AudioSource>();
         Load_Sounds();
-        sound_detetct = SearchSound("Monster 1");
+        sound_detect = SearchSound("Monster 1");
+    }
+
+    protected AudioClip SearchSound(string name)
+    {
+        for (int i = 0; i < sounds.Length; i++)
+            if (sounds[i].name == name)
+                return sounds[i];
+        return null;
+    }
+    protected void Load_Sounds()
+    {
+        sounds = Resources.LoadAll<AudioClip>("Sounds\\Enemies");
     }
     public override void SetNextPos()
     {
@@ -131,7 +145,7 @@ public class Enemy_Mage : Enemy {
             if (PlayerPos == engine.player.Position)
             {
                 if(!transform.GetChild(1).GetComponent<SpriteRenderer>().enabled)
-                    source.PlayOneShot(sound_detetct);
+                    source.PlayOneShot(sound_detect);
                 transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
                 transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
             }

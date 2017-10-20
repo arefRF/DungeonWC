@@ -5,12 +5,15 @@ using UnityEngine;
 public class Enemy_Orib : Enemy {
     private Animator animator;
     public float speed = 2;
+    private AudioClip[] sounds;
+    private AudioSource source;
+    private AudioClip sound_detect;
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
         source = GetComponent<AudioSource>();
         Load_Sounds();
-        sound_detetct = SearchSound("Monster 1");
+        sound_detect = SearchSound("Monster 1");
     }
     public override void SetNextPos()
     {
@@ -86,7 +89,7 @@ public class Enemy_Orib : Enemy {
         }
         if (PlayerPos == engine.player.Position)
         {
-            source.PlayOneShot(sound_detetct);
+            source.PlayOneShot(sound_detect);
             transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
             transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
         }
@@ -127,7 +130,17 @@ public class Enemy_Orib : Enemy {
         engine.EnemyMoveFinished();
 
     }
-
+    protected AudioClip SearchSound(string name)
+    {
+        for (int i = 0; i < sounds.Length; i++)
+            if (sounds[i].name == name)
+                return sounds[i];
+        return null;
+    }
+    protected void Load_Sounds()
+    {
+        sounds = Resources.LoadAll<AudioClip>("Sounds\\Enemies");
+    }
     public override Clonable Clone()
     {
         return new ClonableEnemy_Orib(this);

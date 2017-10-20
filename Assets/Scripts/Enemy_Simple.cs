@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Enemy_Simple : Enemy {
     public float speed = 2;
-    private Animator animator;
 
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
         source = GetComponent<AudioSource>();
         Load_Sounds();
-        sound_detetct = SearchSound("Monster 1");
+        sound_detect = SearchSound("ex");
+        sound_question = SearchSound("question");
     }
     public override void SetNextPos()
     {
@@ -79,14 +79,17 @@ public class Enemy_Simple : Enemy {
         }
         if(PlayerPos == engine.player.Position)
         {
-            if(!transform.GetChild(1).GetComponent<SpriteRenderer>().enabled)
-                source.PlayOneShot(sound_detetct);
+            if (!transform.GetChild(1).GetComponent<SpriteRenderer>().enabled)
+            {
+                source.PlayOneShot(sound_detect);
+            }
             transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
             transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
         }
         else
         {
-            //if(!transform.GetChild(2).GetComponent<SpriteRenderer>().enabled)
+            if (!transform.GetChild(2).GetComponent<SpriteRenderer>().enabled)
+                source.PlayOneShot(sound_question);
             transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
             transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = true;
         }
@@ -142,6 +145,17 @@ public class Enemy_Simple : Enemy {
         engine.RemovefromDatabase(this);
         Clone();
         isdead = true;
+    }
+    protected AudioClip SearchSound(string name)
+    {
+        for (int i = 0; i < sounds.Length; i++)
+            if (sounds[i].name == name)
+                return sounds[i];
+        return null;
+    }
+    protected void Load_Sounds()
+    {
+        sounds = Resources.LoadAll<AudioClip>("Sounds\\Enemies");
     }
 }
 
