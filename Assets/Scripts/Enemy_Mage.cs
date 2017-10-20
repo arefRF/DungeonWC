@@ -117,6 +117,7 @@ public class Enemy_Mage : Enemy {
 
     public override void Move()
     {
+
         if (Position != NextPos)
         {
             engine.AddToSnapshot(Clone());
