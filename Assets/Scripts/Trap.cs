@@ -21,7 +21,7 @@ public class Trap : Unit {
         List<Unit> units = engine.units[(int)position.x, (int)position.y];
         for (int i = 0; i < units.Count; i++)
         {
-            if (units[i] is Box || units[i] is Block || units[i] is Enemy || units[i] is TNT)
+            if (units[i] is Box || units[i] is Block || units[i] is Enemy || units[i] is TNT || units[i] is Key)
                 return false;
         }
         return true;
