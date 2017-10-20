@@ -24,7 +24,6 @@ public class Engine : MonoBehaviour {
     {
 
     }
-
     public void Begin()
     {
         snapshots = new List<Snapshot>();
@@ -52,11 +51,10 @@ public class Engine : MonoBehaviour {
             turn = Turn.EnemyTurn;
             player.Move(direciton);
         }
-        else
-            ForceMove();
+        //else
+          //  ForceMove();
     }
-
-    public void PlayerMoveFinieshed(bool playermoved)
+    public void PlayerMoveFinished(bool playermoved)
     {
         if (!playermoved)
         {

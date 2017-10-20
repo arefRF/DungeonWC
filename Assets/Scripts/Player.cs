@@ -119,7 +119,7 @@ public class Player : Unit {
         /// Move Finished
         transform.GetChild(0).gameObject.SetActive(true);
         sprite.sprite = null;
-        engine.PlayerMoveFinieshed(true);
+        engine.PlayerMoveFinished(true);
         engine.AddtoDatabase(this);
     }
     public void Move(Direction direction)
@@ -184,7 +184,7 @@ public class Player : Unit {
     {
         engine.AddtoDatabase(this);
         animator.SetInteger("Walk", 0);
-        engine.PlayerMoveFinieshed(playermoved);
+        engine.PlayerMoveFinished(playermoved);
     }
 
 
