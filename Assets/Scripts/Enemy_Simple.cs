@@ -102,7 +102,6 @@ public class Enemy_Simple : Enemy {
             engine.AddToSnapshot(key.Clone());
             engine.RemovefromDatabase(key);
             key.Position = Position;
-            key.transform.position = Position;
             engine.AddtoDatabase(key);
         }
         if (engine.player.Position == NextPos)
@@ -121,6 +120,10 @@ public class Enemy_Simple : Enemy {
         {
             remain = (transform.position - nextPos).sqrMagnitude;
             transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * speed);
+            if(key != null)
+            {
+                key.transform.position = Vector3.MoveTowards(key.transform.position, nextPos, Time.deltaTime * speed);
+            }
             yield return null;
         }
 
