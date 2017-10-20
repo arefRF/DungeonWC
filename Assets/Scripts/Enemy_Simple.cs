@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy_Simple : Enemy {
+    public float speed = 2;
+    private Animator animator;
 
-
+    void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
     public override void SetNextPos()
     {
         UpdatePlayerPos();
@@ -61,13 +66,37 @@ public class Enemy_Simple : Enemy {
 
     public override void Move()
     {
-        if (Position != NextPos)
+        if (Position == NextPos)
         {
-            engine.RemovefromDatabase(this);
-            Position = NextPos;
-            transform.position = NextPos;
-            engine.AddtoDatabase(this);
+            engine.EnemyMoveFinished();
+            return;
         }
+        engine.RemovefromDatabase(this);
+        Position = NextPos;
+        if (engine.player.Position == NextPos)
+            animator.SetBool("KillWalk", true);
+        else
+            animator.SetBool("Walk", true);
+        StartCoroutine(MoveCo(NextPos));
+
+    }
+
+
+    private IEnumerator MoveCo(Vector3 nextPos)
+    {
+        float remain = (transform.position - nextPos).sqrMagnitude;
+        while (remain > float.Epsilon)
+        {
+            remain = (transform.position - nextPos).sqrMagnitude;
+            transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * speed);
+            yield return null;
+        }
+
+        /// Move Finished
+        animator.SetBool("Walk", false);
+        animator.SetBool("KillWalk", false);
+        engine.AddtoDatabase(this);
         engine.EnemyMoveFinished();
+        
     }
 }
