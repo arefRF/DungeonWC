@@ -9,7 +9,10 @@ public class Enemy_Simple : Enemy {
     {
         UpdatePlayerPos();
         if (PlayerPos == Position)
-            engine.EnemyMoveFinished();
+        {
+            NextPos = Position;
+            return;
+        }
         List<int> selected = new List<int>();
         float min = 10000;
         for(int i=0; i<4; i++)
@@ -43,7 +46,6 @@ public class Enemy_Simple : Enemy {
                 min = 1000;
                 for (int i = 0; i < selected.Count; i++)
                 {
-                    Debug.Log(selected[i]);
                     Vector2 temppos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(selected[i]));
                     float temp = Vector2.SqrMagnitude(temppos - engine.player.prevpos);
                     if (temp < min)
@@ -59,10 +61,13 @@ public class Enemy_Simple : Enemy {
 
     public override void Move()
     {
-        engine.RemovefromDatabase(this);
-        Position = NextPos;
-        transform.position = NextPos;
-        engine.AddtoDatabase(this);
+        if (Position != NextPos)
+        {
+            engine.RemovefromDatabase(this);
+            Position = NextPos;
+            transform.position = NextPos;
+            engine.AddtoDatabase(this);
+        }
         engine.EnemyMoveFinished();
     }
 }
