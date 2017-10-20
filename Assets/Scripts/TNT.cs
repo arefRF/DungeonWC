@@ -51,8 +51,9 @@ public class TNT : Unit {
         }
 
         /// Move Finished
-        engine.CheckSwitch();
+        
         engine.AddtoDatabase(this);
+        engine.CheckSwitch();
     }
 
     public void Explode()

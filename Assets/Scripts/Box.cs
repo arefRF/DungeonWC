@@ -50,8 +50,8 @@ public class Box : Unit {
         }
 
         /// Move Finished
-        engine.CheckSwitch();
         engine.AddtoDatabase(this);
+        engine.CheckSwitch();
     }
 
     public override Clonable Clone()
