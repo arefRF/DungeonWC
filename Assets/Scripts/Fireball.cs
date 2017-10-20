@@ -8,6 +8,8 @@ public class Fireball : MonoBehaviour {
     {
         
         Unit unit = col.GetComponent<Unit>();
+        if (col.name == "FireBall")
+            return;
         if (unit is Player)
         {
             unit.GetComponentInChildren<Animator>().SetInteger("Death", 1);
