@@ -56,7 +56,13 @@ public class Enemy : Unit {
             if(player != null)
             {
                 if (!transform.GetChild(1).GetComponent<SpriteRenderer>().enabled)
-                    source.PlayOneShot(sound_detect);
+                {
+                    try
+                    {
+                        source.PlayOneShot(sound_detect);
+                    }
+                    catch { source = GetComponent<AudioSource>(); }
+                }
                 PlayerPos = player.Position;
                 transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
                 transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;

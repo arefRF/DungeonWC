@@ -12,6 +12,13 @@ public class Switch : Unit{
     public bool isOn = false;
     
     public void UnlockSound(){
-        source.Play();
+        try
+        {
+            source.Play();
+        }
+        catch
+        {
+            source = GetComponent<AudioSource>();
+        }
     }
 }

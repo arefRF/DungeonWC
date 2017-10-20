@@ -11,9 +11,11 @@ public class Enemy_Orib : Enemy {
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         source = GetComponent<AudioSource>();
         Load_Sounds();
-        sound_detect = SearchSound("Monster 1");
+        sound_detect = SearchSound("ex");
+        sound_question = SearchSound("question");
     }
     public override void SetNextPos()
     {
