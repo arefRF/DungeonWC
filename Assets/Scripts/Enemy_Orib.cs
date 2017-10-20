@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy_Orib : Enemy {
-
+    private Animator animator;
+    public float speed = 2;
+    void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
     public override void SetNextPos()
     {
         UpdatePlayerPos();
@@ -40,7 +45,6 @@ public class Enemy_Orib : Enemy {
                 selected.Add(i);
             }
         }
-        Debug.Log(selected.Count);
         if (selected.Count == 0)
             engine.EnemyMoveFinished();
         if (selected.Count == 1)
@@ -70,13 +74,58 @@ public class Enemy_Orib : Enemy {
 
     public override void Move()
     {
-        if (Position != NextPos)
+        if (Position == NextPos)
         {
-            engine.RemovefromDatabase(this);
-            Position = NextPos;
-            transform.position = NextPos;
-            engine.AddtoDatabase(this);
+            engine.EnemyMoveFinished();
+            return;
         }
+        engine.AddToSnapshot(Clone());
+        animator.SetBool("Walk", true);
+        engine.RemovefromDatabase(this);
+        Position = NextPos;
+        StartCoroutine(MoveCo(NextPos)); 
+    }
+
+    private IEnumerator MoveCo(Vector3 nextPos)
+    {
+        float remain = (transform.position - nextPos).sqrMagnitude;
+        while (remain > float.Epsilon)
+        {
+            remain = (transform.position - nextPos).sqrMagnitude;
+            transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * speed);
+            yield return null;
+        }
+
+        /// Move Finished
+        animator.SetBool("Walk", false);
+        //animator.SetBool("KillWalk", false);
+        engine.AddtoDatabase(this);
         engine.EnemyMoveFinished();
+
+    }
+
+    public override Clonable Clone()
+    {
+        return new ClonableEnemy_Orib(this);
+    }
+}
+
+public class ClonableEnemy_Orib : Clonable
+{
+    public ClonableEnemy_Orib(Enemy_Orib enemy)
+    {
+        original = enemy;
+        trasformposition = enemy.transform.position;
+        position = enemy.Position;
+    }
+
+    public override void Undo()
+    {
+        Debug.Log(original);
+        Enemy_Simple enemy = original as Enemy_Simple;
+        enemy.engine.RemovefromDatabase(original);
+        enemy.Position = position;
+        enemy.transform.position = trasformposition;
+        enemy.engine.AddtoDatabase(original);
     }
 }

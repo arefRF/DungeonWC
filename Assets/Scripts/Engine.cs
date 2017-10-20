@@ -16,6 +16,8 @@ public class Engine : MonoBehaviour {
     public List<Enemy> enemies { get; set; }
 
     private int counter = 0;
+    private List<Snapshot> snapshots;
+    private Snapshot currentSnapshot;
     void Awake()
     {
 
@@ -23,6 +25,8 @@ public class Engine : MonoBehaviour {
 
     public void Begin()
     {
+        snapshots = new List<Snapshot>();
+        currentSnapshot = new Snapshot();
         for (int i = 0; i < enemies.Count; i++)
             enemies[i].UpdatePlayerPos();
         turn = Turn.PlayerTurn;
@@ -80,6 +84,7 @@ public class Engine : MonoBehaviour {
         if (enemies.Count == counter)
         {
             counter = 0;
+            SnapshotDone();
             turn = Turn.PlayerTurn;
         }
     }
@@ -109,7 +114,28 @@ public class Engine : MonoBehaviour {
 
     public void Undo()
     {
-        Debug.Log("undo");
+        if (!currentSnapshot.isempty)
+            SnapshotDone();
+        if (snapshots.Count == 0)
+            return;
+        Snapshot temp = snapshots[snapshots.Count - 1];
+        snapshots.RemoveAt(snapshots.Count - 1);
+        for(int i=0; i<temp.clones.Count; i++)
+        {
+            temp.clones[i].Undo();
+        }
+    }
+
+    public void AddToSnapshot(Clonable clone)
+    {
+        currentSnapshot.isempty = false;
+        currentSnapshot.clones.Add(clone);
+    }
+
+    public void SnapshotDone()
+    {
+        snapshots.Add(currentSnapshot);
+        currentSnapshot = new Snapshot();
     }
 
     public void Action()
@@ -136,4 +162,15 @@ public enum Direction
 public enum Turn
 {
     PlayerTurn, EnemyTurn
+}
+
+public class Snapshot
+{
+    public List<Clonable> clones;
+    public bool isempty;
+    public Snapshot()
+    {
+        isempty = true;
+        clones = new List<Clonable>();
+    }
 }
