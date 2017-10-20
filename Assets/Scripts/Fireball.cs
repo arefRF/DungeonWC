@@ -6,19 +6,19 @@ public class Fireball : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        
+        transform.parent.gameObject.GetComponent<Enemy_Mage>().StopAllCoroutines();
+        GetComponent<SpriteRenderer>().enabled = false;
+        transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
         Unit unit = col.GetComponent<Unit>();
         if (col.name == "FireBall")
             return;
         if (unit is Player)
         {
-            unit.GetComponentInChildren<Animator>().SetInteger("Death", 1);
+            Debug.Log("player die");
         }
         else if (unit is Enemy)
         {
-            if (unit == transform.parent.GetComponent<Enemy>())
-                return;
-                unit.GetComponentInChildren<Animator>().SetBool("Death",true);
+            Debug.Log("enemy diw");
         }
         else if(unit is Box)
         {
@@ -28,8 +28,5 @@ public class Fireball : MonoBehaviour {
         {
             Debug.Log("tnt boom");
         }
-        transform.parent.gameObject.GetComponent<Enemy_Mage>().StopAllCoroutines();
-        GetComponent<SpriteRenderer>().enabled = false;
-        transform.localPosition = new Vector3(-2f, 2.2f, 10);
     }
 }

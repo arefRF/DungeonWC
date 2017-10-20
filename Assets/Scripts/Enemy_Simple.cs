@@ -75,6 +75,14 @@ public class Enemy_Simple : Enemy {
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = NextPos;
+        if (key != null)
+        {
+            engine.AddToSnapshot(key.Clone());
+            engine.RemovefromDatabase(key);
+            key.Position = Position;
+            key.transform.position = Position;
+            engine.AddtoDatabase(key);
+        }
         if (engine.player.Position == NextPos)
             animator.SetBool("KillWalk", true);
         else
