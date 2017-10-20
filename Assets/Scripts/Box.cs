@@ -71,6 +71,7 @@ public class ClonableBox : Clonable
     public override void Undo()
     {
         Box box = original as Box;
+        box.StopAllCoroutines();
         box.engine.RemovefromDatabase(original);
         box.Position = position;
         box.transform.position = trasformposition;

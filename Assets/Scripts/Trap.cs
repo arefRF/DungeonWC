@@ -57,6 +57,7 @@ public class ClonableTrap : Clonable
     public override void Undo()
     {
         Trap trap = original as Trap;
+        trap.StopAllCoroutines();
         trap.engine.RemovefromDatabase(original);
         trap.Position = position;
         trap.transform.position = trasformposition;
