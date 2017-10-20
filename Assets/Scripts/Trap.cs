@@ -5,6 +5,7 @@ using UnityEngine;
 public class Trap : Unit {
 
     public int speed = 4;
+    public bool isdestroyed = false;
     public void Move(Direction direction)
     {
         engine.AddToSnapshot(Clone());

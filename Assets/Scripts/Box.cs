@@ -28,7 +28,7 @@ public class Box : Unit {
                 return false;
             else if(units[i] is Trap)
             {
-                if((units[i] as Trap).CanMoveToPosition(ToolKit.VectorSum(Position, direction)))
+                if ((units[i] as Trap).CanMoveToPosition(ToolKit.VectorSum(position, direction)))
                 {
                     trap = units[i] as Trap;
                     return true;

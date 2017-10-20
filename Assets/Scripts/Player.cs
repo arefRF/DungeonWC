@@ -109,13 +109,13 @@ public class Player : Unit {
         }
         else
         {
-            engine.AddtoDatabase(this);
             MoveFinished(playermoved);
         }
     }
 
     public void MoveFinished(bool playermoved)
     {
+        engine.AddtoDatabase(this);
         animator.SetInteger("Walk", 0);
         engine.PlayerMoveFinieshed(playermoved);
     }
