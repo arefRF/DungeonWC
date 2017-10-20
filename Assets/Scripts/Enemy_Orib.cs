@@ -24,9 +24,9 @@ public class Enemy_Orib : Enemy {
             poses[i] = ToolKit.VectorSum(Position, ToolKit.IntToDirection(i));
         }
         poses[0] = ToolKit.VectorSum(poses[0], Direction.Right);
-        poses[1] = ToolKit.VectorSum(poses[0], Direction.Down);
-        poses[2] = ToolKit.VectorSum(poses[0], Direction.Left);
-        poses[3] = ToolKit.VectorSum(poses[0], Direction.Up);
+        poses[1] = ToolKit.VectorSum(poses[1], Direction.Down);
+        poses[2] = ToolKit.VectorSum(poses[2], Direction.Left);
+        poses[3] = ToolKit.VectorSum(poses[3], Direction.Up);
         float min = 10000;
         for (int i = 0; i < 4; i++)
         {
@@ -122,6 +122,7 @@ public class ClonableEnemy_Orib : Clonable
     public override void Undo()
     {
         Enemy_Orib enemy = original as Enemy_Orib;
+        enemy.StopAllCoroutines();
         enemy.engine.RemovefromDatabase(original);
         enemy.Position = position;
         enemy.transform.position = trasformposition;
