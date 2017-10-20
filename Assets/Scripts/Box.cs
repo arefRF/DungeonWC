@@ -23,7 +23,7 @@ public class Box : Unit {
         if (key != null)
         {
             key.Move(direction);
-            key == null;
+            key = null;
         }
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
