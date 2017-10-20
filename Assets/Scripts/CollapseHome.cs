@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class CollapseHome : MonoBehaviour {
     public GameObject home;
+    public GameObject fallSound;
     void OnTriggerEnter2D(Collider2D col){
         if (col.name == "Player")
         {
-            col.GetComponentInChildren<Animator>().SetTrigger("Fall");
-            home.GetComponent<Animator>().SetTrigger("Collapse");
-            
+            home.GetComponent<AudioSource>().loop = false;
+            home.GetComponent<AudioSource>().Play();
+            StartCoroutine(Wait(col.gameObject));
+
         }
+    }
+
+    private IEnumerator Wait(GameObject col)
+    {
+        yield return new WaitForSeconds(0.5f);
+        col.GetComponentInChildren<Animator>().SetTrigger("Fall");
+        fallSound.GetComponent<AudioSource>().Play();
+        home.GetComponent<Animator>().SetTrigger("Collapse");
     }
 }
