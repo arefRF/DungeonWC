@@ -16,8 +16,8 @@ public class Player : Unit {
         a_event = GetComponentInChildren<AnimationEventPlayer>();
         animator = GetComponentInChildren<Animator>();
     }
-    
-    public void Move(Direction direction)
+
+    /*public void Move(Direction direction)
     {
         engine.RemovefromDatabase(this);
         Vector2 temppos = ToolKit.VectorSum(Position, direction);
@@ -55,6 +55,40 @@ public class Player : Unit {
             engine.AddtoDatabase(this);
             MoveFinished(playermoved);
         }
+    }*/
+
+    public void Move(Direction direction)
+    {
+        engine.RemovefromDatabase(this);
+        Vector2 temppos = ToolKit.VectorSum(Position, direction);
+        bool playermoved = false;
+        if (CanMoveToPosition(temppos, direction))
+        {
+            prevpos = Position;
+            Position = temppos;
+            transform.position = ToolKit.VectorSum(transform.position, direction);
+            if (key != null)
+            {
+                engine.AddToSnapshot(key.Clone());
+                engine.RemovefromDatabase(key);
+                key.Position = ToolKit.VectorSum(key.Position, direction);
+                key.transform.position = ToolKit.VectorSum(key.transform.position, direction);
+                engine.AddtoDatabase(key);
+            }
+            if (box != null)
+            {
+                box.Move(direction);
+                box = null;
+            }
+            if (tnt != null)
+            {
+                tnt.Move(direction);
+                tnt = null;
+            }
+            playermoved = true;
+        }
+        engine.AddtoDatabase(this);
+        MoveFinished(playermoved);
     }
 
     public void MoveFinished(bool playermoved)
@@ -65,6 +99,7 @@ public class Player : Unit {
 
     public void FakeMove(Direction dir)
     {
+        return;
         if (engine.turn == Turn.EnemyTurn)
             return;
         Vector2 temp = ToolKit.VectorSum(Position, dir);
