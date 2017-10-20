@@ -25,17 +25,17 @@ public class GetInput : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.DownArrow))
             engine.player.FakeMove(Direction.Down);
         */
-        if (Input.GetKeyUp(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
             engine.Move(Direction.Down);
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
             engine.Move(Direction.Left);
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
             engine.Move(Direction.Right);
-        else if (Input.GetKeyUp(KeyCode.UpArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
             engine.Move(Direction.Up);
-        else if (Input.GetKeyUp(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.R))
             engine.Undo();
-        else if (Input.GetKeyUp(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.Space))
             engine.Action();
     }
 }

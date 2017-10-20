@@ -48,6 +48,8 @@ public class Enemy : Unit {
             if(player != null)
             {
                 PlayerPos = player.Position;
+                transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+                transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
             }
         }
     }
