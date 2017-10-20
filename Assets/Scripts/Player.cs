@@ -61,18 +61,32 @@ public class Player : Unit {
 
     private void GraphicMove(Direction dir)
     {
+        transform.GetChild(0).gameObject.SetActive(false);
         if(dir == Direction.Left)
             transform.rotation = Quaternion.Euler(0,180,0);
         else
             transform.rotation = Quaternion.Euler(0,0,0);
         if (dir == Direction.Left || dir == Direction.Right)
         {
-            animator.SetInteger("Walk", 1);
+            sprite.sprite = (Sprite)Resources.Load("Player\\Walk 1", typeof(Sprite));
+            //SetInteger("Walk", 1);
         }
         else if (dir == Direction.Up)
-            animator.SetInteger("Walk", 2);
+            sprite.sprite = (Sprite)Resources.Load("Player\\Walk 3", typeof(Sprite));
+            //animator.SetInteger("Walk", 2);
         else if (dir == Direction.Down)
-            animator.SetInteger("Walk", 3);
+            sprite.sprite = (Sprite)Resources.Load("Player\\Walk 2",typeof(Sprite));
+            //animator.SetInteger("Walk", 3);
+        StartCoroutine(MovePlayerCo(dir));
+    }
+
+    private IEnumerator MovePlayerCo(Direction dir)
+    {
+        yield return new WaitForSeconds(0.1f);
+        transform.GetChild(0).gameObject.SetActive(true);
+        sprite.sprite = null;
+        transform.position = ToolKit.VectorSum(transform.position, dir);
+        MoveFinished(true);
     }
 
     private void BoxMoveAnimation(Direction dir)
