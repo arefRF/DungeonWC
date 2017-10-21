@@ -120,6 +120,29 @@ public class Engine : MonoBehaviour {
             {
                 if (enemies[i].isdead)
                     continue;
+                if(enemies[i] is Enemy_Mage)
+                {
+                    if (enemies[i].PlayerPos == player.Position)
+                    {
+                        Vector2 temppos = player.Position - enemies[i].Position;
+                        if (temppos.x == 0 || temppos.y == 0)
+                        {
+                            if (temppos.x == 0)
+                            {
+                                if (temppos.y > 0)
+                                    (enemies[i] as Enemy_Mage).ChargeFireBall(Direction.Up);
+                                else
+                                    (enemies[i] as Enemy_Mage).ChargeFireBall(Direction.Down);
+                            }
+                            else if (temppos.y == 0)
+                            {
+                                if (temppos.x > 0)
+                                    (enemies[i] as Enemy_Mage).ChargeFireBall(Direction.Right);
+                                else
+                                    (enemies[i] as Enemy_Mage).ChargeFireBall(Direction.Left);
+                            }
+                        }
+                    }
                 enemies[i].UpdatePlayerPos();
                 if(enemies[i].Position == player.Position)
                 {
