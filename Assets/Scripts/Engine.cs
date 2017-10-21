@@ -130,6 +130,7 @@ public class Engine : MonoBehaviour {
         }
         if(switchh != null && !switchh.isOn)
         {
+            
             List<Unit> temp = units[(int)switchh.Position.x, (int)switchh.Position.y];
             if (temp.Count == 1)
             {
