@@ -29,6 +29,8 @@ public class Fireball : MonoBehaviour {
             Debug.Log("tnt boom");
         }
         transform.parent.gameObject.GetComponent<Enemy_Mage>().StopAllCoroutines();
+        transform.parent.gameObject.GetComponent<Enemy_Mage>().shootingfireball = false;
+        transform.parent.gameObject.GetComponent<Enemy_Mage>().engine.EnemyMoveFinished();
         GetComponent<SpriteRenderer>().enabled = false;
         transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
         GetComponent<CircleCollider2D>().enabled = false;
