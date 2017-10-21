@@ -5,13 +5,15 @@ using UnityEngine;
 public class TNT : Unit {
 
     public Trap trap { get; set; }
-
+    public Key key { get; set; }
     public int speed = 4;
 
     public void Move(Direction direction)
     {
         if (trap != null)
             trap.Move(direction);
+        if (key != null)
+            key.Move(direction);
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = ToolKit.VectorSum(Position, direction);
@@ -33,6 +35,15 @@ public class TNT : Unit {
                 if ((units[i] as Trap).CanMoveToPosition(ToolKit.VectorSum(position, direction)))
                 {
                     trap = units[i] as Trap;
+                    return true;
+                }
+                return false;
+            }
+            else if (units[i] is Key)
+            {
+                if ((units[i] as Key).CanMoveToPosition(ToolKit.VectorSum(position, direction)))
+                {
+                    key = units[i] as Key;
                     return true;
                 }
                 return false;

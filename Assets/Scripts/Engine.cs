@@ -134,24 +134,14 @@ public class Engine : MonoBehaviour {
         {
             
             List<Unit> temp = units[(int)switchh.Position.x, (int)switchh.Position.y];
-            if (temp.Count == 1)
+            for (int i = 0; i < temp.Count; i++)
             {
-                endtile.Lock();
-                switchh.isOn = false;
-                switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
-                switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
-            }
-            else
-            {
-                for (int i = 0; i < temp.Count; i++)
+                if (temp[i] is Player || temp[i] is Box || temp[i] is Enemy)
                 {
-                    if (temp[i] is Player || temp[i] is Box || temp[i] is Enemy)
-                    {
-                        endtile.Unlock();
-                        switchh.isOn = true;
-                        switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
-                        switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
-                    }
+                    endtile.Unlock();
+                    switchh.isOn = true;
+                    switchh.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+                    switchh.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
                 }
             }
         }
