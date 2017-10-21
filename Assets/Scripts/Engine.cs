@@ -144,6 +144,13 @@ public class Engine : MonoBehaviour {
             CheckSwitch();
             counter = 0;
             SnapshotDone();
+            if (player.Position == endtile.Position)
+            {
+                if (player.key != null || !endtile.IsLocked)
+                {
+                    GameObject.Find("Change").GetComponent<ChangeSence>().ChangeScene();
+                }
+            }
             turn = Turn.PlayerTurn;
         }
     }
