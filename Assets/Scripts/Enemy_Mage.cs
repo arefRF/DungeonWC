@@ -174,7 +174,7 @@ public class ClonableEnemy_Mage : Clonable
         position = enemy.Position;
         charged = enemy.FireballCharged;
         fireballdirection = enemy.chargedirection;
-        playerpos = enemy.PlayerPos;
+        playerpos = enemy.PlayerPostemp;
     }
 
     public override void Undo()
