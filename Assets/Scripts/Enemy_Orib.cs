@@ -118,6 +118,14 @@ public class ClonableEnemy_Orib : Clonable
         original = enemy;
         trasformposition = enemy.transform.position;
         position = enemy.Position;
+        if (key != null)
+        {
+            engine.AddToSnapshot(key.Clone());
+            engine.RemovefromDatabase(key);
+            key.Position = Position;
+            key.transform.position = Position;
+            engine.AddtoDatabase(key);
+        }
         playerpos = enemy.PlayerPostemp;
     }
 

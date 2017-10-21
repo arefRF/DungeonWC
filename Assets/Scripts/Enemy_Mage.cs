@@ -124,6 +124,14 @@ public class Enemy_Mage : Enemy {
             engine.AddToSnapshot(Clone());
             engine.RemovefromDatabase(this);
             Position = NextPos;
+            if (key != null)
+            {
+                engine.AddToSnapshot(key.Clone());
+                engine.RemovefromDatabase(key);
+                key.Position = Position;
+                key.transform.position = Position;
+                engine.AddtoDatabase(key);
+            }
             animator.SetBool("Walk", true);
             StartCoroutine(MoveCo(NextPos));
            // transform.position = NextPos;

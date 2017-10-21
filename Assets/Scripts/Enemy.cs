@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : Unit {
 
     public Vector2 NextPos { get; set; }
-
+    public Key key { get; set; }
     public Vector2 PlayerPos { get; set; }
     public Vector2 PlayerPostemp { get; set; }
     public virtual void SetNextPos()
