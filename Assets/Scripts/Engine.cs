@@ -120,7 +120,7 @@ public class Engine : MonoBehaviour {
             {
                 if (enemies[i].isdead)
                     continue;
-                if(enemies[i] is Enemy_Mage)
+                if (enemies[i] is Enemy_Mage)
                 {
                     enemies[i].UpdatePlayerPos();
                     if (enemies[i].PlayerPos == player.Position)
@@ -144,6 +144,7 @@ public class Engine : MonoBehaviour {
                             }
                         }
                     }
+                }
                 enemies[i].UpdatePlayerPos();
                 if(enemies[i].Position == player.Position)
                 {
