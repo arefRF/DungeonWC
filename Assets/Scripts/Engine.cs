@@ -235,6 +235,8 @@ public class Engine : MonoBehaviour {
 
     public void Undo()
     {
+        if (turn != Turn.PlayerTurn)
+            return;
         if (!currentSnapshot.isempty)
             SnapshotDone();
         if (snapshots.Count == 0)
