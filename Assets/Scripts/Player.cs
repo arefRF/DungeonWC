@@ -81,7 +81,10 @@ public class Player : Unit {
         {
             engine.AddToSnapshot(Clone());
             for (int i = 0; i < engine.enemies.Count; i++)
-                engine.AddToSnapshot(engine.enemies[i].Clone());
+            {
+                if(engine.enemies[i] is Enemy_Mage && (engine.enemies[i] as Enemy_Mage).FireballCharged)
+                    engine.AddToSnapshot(engine.enemies[i].Clone());
+            }
             prevpos = Position;
             Position = temppos;
             a_event.dir = direction;
