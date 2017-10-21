@@ -243,7 +243,10 @@ public class Engine : MonoBehaviour {
         snapshots.RemoveAt(snapshots.Count - 1);
         for(int i=0; i<temp.clones.Count; i++)
         {
-            temp.clones[i].Undo();
+            try {
+                temp.clones[i].Undo();
+            }
+            catch{ }
         }
         Checkkey();
         CheckSwitch();
