@@ -130,6 +130,7 @@ public class Enemy_Mage : Enemy {
         {
             if (PlayerPos == engine.player.Position)
             {
+                source.PlayOneShot(sound_detetct);
                 transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
                 transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
             }
