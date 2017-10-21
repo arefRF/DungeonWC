@@ -116,7 +116,7 @@ public class ClonableEnemy_Simple : Clonable
         original = enemy;
         trasformposition = enemy.transform.position;
         position = enemy.Position;
-        playerpos = enemy.PlayerPos;
+        playerpos = enemy.PlayerPostemp;
     }
 
     public override void Undo()
