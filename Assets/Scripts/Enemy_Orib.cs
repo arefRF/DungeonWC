@@ -18,40 +18,31 @@ public class Enemy_Orib : Enemy {
             return;
         }
         List<int> selected = new List<int>();
-        Vector2[] poses = new Vector2[8];
+        Vector2[] poses = new Vector2[4];
         for(int i=0; i<4; i++)
         {
             poses[i] = ToolKit.VectorSum(Position, ToolKit.IntToDirection(i));
         }
-        for(int i=0; i<4; i++)
-        {
-            poses[i + 4] = ToolKit.VectorSum(poses[i], ToolKit.IntToDirection(i));
-        }
+        poses[0] = ToolKit.VectorSum(poses[0], Direction.Right);
+        poses[1] = ToolKit.VectorSum(poses[0], Direction.Down);
+        poses[2] = ToolKit.VectorSum(poses[0], Direction.Left);
+        poses[3] = ToolKit.VectorSum(poses[0], Direction.Up);
         float min = 10000;
-        for (int i = 4; i < 8; i++)
+        for (int i = 0; i < 4; i++)
         {
             Vector2 temppos = poses[i];
-            Vector2 t = poses[i - 4];
-            if (!CanMoveToPosition(t))
-                continue;
-            int s = i;
-            if (!CanMoveToPosition(temppos))
-            {
-                temppos = poses[i - 4];
-                s -= 4;
-            }
             if (!CanMoveToPosition(temppos))
                 continue;
             float temp = Vector2.SqrMagnitude(temppos - PlayerPos);
             if (temp < min && min - temp > 0.01)
             {
                 selected.Clear();
-                selected.Add(s);
+                selected.Add(i);
                 min = temp;
             }
             else if (min - temp < 0.01 && min >= temp)
             {
-                selected.Add(s);
+                selected.Add(i);
             }
         }
         if (selected.Count == 0)

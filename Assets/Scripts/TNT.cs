@@ -78,6 +78,7 @@ public class ClonableTNT : Clonable
     public override void Undo()
     {
         TNT tnt = original as TNT;
+        tnt.StopAllCoroutines();
         tnt.engine.RemovefromDatabase(original);
         tnt.Position = position;
         tnt.transform.position = trasformposition;

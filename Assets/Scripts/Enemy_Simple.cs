@@ -120,6 +120,7 @@ public class ClonableEnemy_Simple : Clonable
     public override void Undo()
     {
         Enemy_Simple enemy = original as Enemy_Simple;
+        enemy.StopAllCoroutines();
         enemy.engine.RemovefromDatabase(original);
         enemy.Position = position;
         enemy.transform.position = trasformposition;
