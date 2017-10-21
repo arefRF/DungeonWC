@@ -112,11 +112,13 @@ public class Enemy_Orib : Enemy {
 
 public class ClonableEnemy_Orib : Clonable
 {
+    public Vector2 playerpos;
     public ClonableEnemy_Orib(Enemy_Orib enemy)
     {
         original = enemy;
         trasformposition = enemy.transform.position;
         position = enemy.Position;
+        playerpos = enemy.PlayerPos;
     }
 
     public override void Undo()

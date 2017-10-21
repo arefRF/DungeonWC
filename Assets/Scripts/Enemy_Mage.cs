@@ -166,6 +166,7 @@ public class ClonableEnemy_Mage : Clonable
 {
     public Direction fireballdirection;
     public bool charged;
+    public Vector2 playerpos;
     public ClonableEnemy_Mage(Enemy_Mage enemy)
     {
         original = enemy;
@@ -173,6 +174,7 @@ public class ClonableEnemy_Mage : Clonable
         position = enemy.Position;
         charged = enemy.FireballCharged;
         fireballdirection = enemy.chargedirection;
+        playerpos = enemy.PlayerPos;
     }
 
     public override void Undo()
