@@ -10,6 +10,8 @@ public class Fireball : MonoBehaviour {
         GetComponent<SpriteRenderer>().enabled = false;
         transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
         Unit unit = col.GetComponent<Unit>();
+        if (col.name == "FireBall")
+            return;
         if (unit is Player)
         {
             Debug.Log("player die");
