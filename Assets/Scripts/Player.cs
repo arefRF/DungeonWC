@@ -109,7 +109,6 @@ public class Player : Unit {
                 tnt = null;
             }
             playermoved = true;
-            engine.EnemyMove();
         }
         else
         {
