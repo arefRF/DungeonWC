@@ -75,7 +75,7 @@ public class Engine : MonoBehaviour {
         {
             if(player.key != null || !endtile.IsLocked)
             {
-                Debug.Log("Level Finished");
+                GameObject.Find("Change").GetComponent<ChangeSence>().ChangeScene();
             }
         }
         else if(key != null && player.key == null)
@@ -104,7 +104,10 @@ public class Engine : MonoBehaviour {
             if (!enemies[i].isdead)
                 enemies[i].Move();
             else
+            {
                 EnemyMoveFinished();
+
+            }
         }
     }
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]

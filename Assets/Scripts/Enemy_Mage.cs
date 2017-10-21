@@ -23,7 +23,6 @@ public class Enemy_Mage : Enemy {
             return;
         }
         UpdatePlayerPos();
-        Debug.Log(PlayerPos);
         if (PlayerPos == Position)
         {
             NextPos = Position;
@@ -165,6 +164,7 @@ public class Enemy_Mage : Enemy {
 
     public void ShootFireBall(Direction direction)
     {
+        transform.GetChild(3).GetComponent<CircleCollider2D>().enabled = true;
         animator.SetBool("Charge", false);
         GameObject g = transform.GetChild(1).gameObject;
         g.GetComponent<SpriteRenderer>().enabled = true;
@@ -207,6 +207,7 @@ public class Enemy_Mage : Enemy {
         }
         g.GetComponent<SpriteRenderer>().enabled = false;
         g.transform.localPosition = new Vector3(-2f, 2.2f, 10);
+        transform.GetChild(3).GetComponent<CircleCollider2D>().enabled = false;
 
     }
 
@@ -217,11 +218,11 @@ public class Enemy_Mage : Enemy {
 
     public override void Die()
     {
+        Clone();
         transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
         transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
         GetComponentInChildren<Animator>().SetBool("Death", true);
         engine.RemovefromDatabase(this);
-        Clone();
         isdead = true;
     }
 }
