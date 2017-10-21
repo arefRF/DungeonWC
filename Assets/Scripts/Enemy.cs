@@ -8,8 +8,17 @@ public class Enemy : Unit {
     public Key key { get; set; }
     public Vector2 PlayerPos { get; set; }
     public Vector2 PlayerPostemp { get; set; }
-
+    protected AudioClip[] sounds;
+    protected AudioClip sound_detetct;
+    protected AudioSource source;
     public bool isdead { get; set; }
+
+    void Start()
+    {
+        source = GetComponent<AudioSource>();
+        Load_Sounds();
+        sound_detetct = SearchSound("Monster 1");
+    }
     public virtual void SetNextPos()
     {
        
@@ -49,6 +58,7 @@ public class Enemy : Unit {
             Player player = hit.collider.gameObject.GetComponent<Player>();
             if(player != null)
             {
+                source.PlayOneShot(sound_detetct);
                 PlayerPos = player.Position;
                 transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
                 transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
@@ -59,5 +69,17 @@ public class Enemy : Unit {
     public virtual void Die()
     {
         
+    }
+
+    protected AudioClip SearchSound(string name)
+    {
+        for (int i = 0; i < sounds.Length; i++)
+            if (sounds[i].name == name)
+                return sounds[i];
+        return null;
+    }
+    protected void Load_Sounds()
+    {
+        sounds = Resources.LoadAll<AudioClip>("Sounds\\Enemies");
     }
 }

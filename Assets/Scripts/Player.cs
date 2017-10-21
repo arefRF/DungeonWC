@@ -12,13 +12,18 @@ public class Player : Unit {
     public Vector2 prevpos { get; set; }
     public float speed = 3;
     private SpriteRenderer sprite;
-
+    private AudioClip[] sounds;
+    private AudioClip death_sound;
     public bool isdead = false;
+    private AudioSource source;
     void Start()
     {
+        source = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
         a_event = GetComponentInChildren<AnimationEventPlayer>();
         animator = GetComponentInChildren<Animator>();
+        Load_Sounds();
+        death_sound = SearchSound("Player Death");
     }
 
     /*public void Move(Direction direction)
@@ -274,10 +279,23 @@ public class Player : Unit {
 
     public void Die()
     {
+        source.PlayOneShot(death_sound);
         GetComponentInChildren<Animator>().SetBool("Death", true);
         engine.RemovefromDatabase(this);
         Clone();
         isdead = true;
+    }
+
+    private AudioClip SearchSound(string name)
+    {
+        for (int i = 0; i <sounds.Length; i++)
+            if (sounds[i].name == name)
+                return sounds[i];
+        return null;
+    }
+    void Load_Sounds()
+    {
+        sounds = Resources.LoadAll<AudioClip>("Sounds\\Player"); 
     }
 }
 

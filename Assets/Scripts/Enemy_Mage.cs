@@ -15,6 +15,9 @@ public class Enemy_Mage : Enemy {
         FireballCharged = false;
         shootingfireball = false;
         animator = GetComponentInChildren<Animator>();
+        source = GetComponent<AudioSource>();
+        Load_Sounds();
+        sound_detetct = SearchSound("Monster 1");
     }
     public override void SetNextPos()
     {
