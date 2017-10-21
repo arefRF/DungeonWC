@@ -101,6 +101,7 @@ public class Engine : MonoBehaviour {
         {
             for(int i=0; i<enemies.Count; i++)
             {
+                enemies[i].UpdatePlayerPos();
                 for(int j=0; j<traps.Count; j++)
                 {
                     if(traps[j].Position == enemies[i].Position)
