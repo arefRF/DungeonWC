@@ -32,8 +32,9 @@ public class Music : MonoBehaviour {
             }
             else
             {
-                Music.instance.source.PlayOneShot(Music.instance.sounds[i]);
-                StartCoroutine(MusicShuffle(Music.instance.sounds[i].length));
+                AudioClip music = SearchMusic("Menu");
+                Music.instance.source.PlayOneShot(music);
+                StartCoroutine(MusicShuffle(music.length));
             }
           
         }
@@ -51,9 +52,10 @@ public class Music : MonoBehaviour {
     {
         yield return new WaitForSeconds(time);
         int i = Random.Range(1, 3);
+        AudioClip music = SearchMusic("Menu");
         Music.instance.source.Stop();
-        Music.instance.source.PlayOneShot(Music.instance.sounds[i]);
-        StartCoroutine(MusicShuffle(Music.instance.sounds[i].length));
+        Music.instance.source.PlayOneShot(music);
+        StartCoroutine(MusicShuffle(music.length));
     }
     void Load_Musics()
     {

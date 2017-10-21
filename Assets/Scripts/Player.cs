@@ -284,6 +284,7 @@ public class Player : Unit {
         engine.RemovefromDatabase(this);
         Clone();
         isdead = true;
+        GameObject.Find("Input").GetComponent<GetInput>().inMenuShow();
     }
 
     private AudioClip SearchSound(string name)
