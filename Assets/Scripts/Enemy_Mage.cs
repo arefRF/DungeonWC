@@ -190,5 +190,6 @@ public class ClonableEnemy_Mage : Clonable
         enemy.engine.AddtoDatabase(original);
         enemy.FireballCharged = charged;
         enemy.chargedirection = fireballdirection;
+        enemy.PlayerPos = playerpos;
     }
 }

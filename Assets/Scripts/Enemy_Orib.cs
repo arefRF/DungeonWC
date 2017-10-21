@@ -129,5 +129,6 @@ public class ClonableEnemy_Orib : Clonable
         enemy.Position = position;
         enemy.transform.position = trasformposition;
         enemy.engine.AddtoDatabase(original);
+        enemy.PlayerPos = playerpos;
     }
 }

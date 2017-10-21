@@ -127,5 +127,6 @@ public class ClonableEnemy_Simple : Clonable
         enemy.Position = position;
         enemy.transform.position = trasformposition;
         enemy.engine.AddtoDatabase(original);
+        enemy.PlayerPos = playerpos;
     }
 }
