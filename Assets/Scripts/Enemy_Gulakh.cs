@@ -2,15 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Orib : Enemy {
-    private Animator animator;
+public class Enemy_Gulakh : Enemy {
+
     public float speed = 2;
+    private Animator animator;
+
+    private bool Ischarged = false;
+
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
     }
+
     public override void SetNextPos()
     {
+        if (Ischarged)
+        {
+            Shoot();
+            Ischarged = false;
+            return;
+        }
         UpdatePlayerPos();
         if (PlayerPos == Position)
         {
@@ -18,21 +29,10 @@ public class Enemy_Orib : Enemy {
             return;
         }
         List<int> selected = new List<int>();
-        Vector2[] poses = new Vector2[8];
-        for(int i=0; i<4; i++)
-        {
-            poses[i] = ToolKit.VectorSum(Position, ToolKit.IntToDirection(i));
-        }
-        for(int i=0; i<8; i++)
-        {
-            poses[i + 4] = ToolKit.VectorSum(poses[i], ToolKit.IntToDirection(i));
-        }
         float min = 10000;
-        for (int i = 4; i < 8; i++)
+        for (int i = 0; i < 4; i++)
         {
-            Vector2 temppos = poses[i];
-            if (!CanMoveToPosition(temppos))
-                temppos = poses[i - 4];
+            Vector2 temppos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(i));
             if (!CanMoveToPosition(temppos))
                 continue;
             float temp = Vector2.SqrMagnitude(temppos - PlayerPos);
@@ -51,7 +51,7 @@ public class Enemy_Orib : Enemy {
             engine.EnemyMoveFinished();
         if (selected.Count == 1)
         {
-            NextPos = poses[selected[0]];
+            NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(selected[0]));
         }
         else
         {
@@ -70,12 +70,13 @@ public class Enemy_Orib : Enemy {
                     }
                 }
             }
-            NextPos = poses[sel];
+            NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(sel));
         }
     }
 
     public override void Move()
     {
+
         if (Position == NextPos)
         {
             engine.EnemyMoveFinished();
@@ -84,8 +85,12 @@ public class Enemy_Orib : Enemy {
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = NextPos;
-        animator.SetBool("Walk", true);
-        StartCoroutine(MoveCo(NextPos)); 
+        if (engine.player.Position == NextPos)
+            animator.SetBool("KillWalk", true);
+        else
+            animator.SetBool("Walk", true);
+        StartCoroutine(MoveCo(NextPos));
+
     }
 
     private IEnumerator MoveCo(Vector3 nextPos)
@@ -100,33 +105,19 @@ public class Enemy_Orib : Enemy {
 
         /// Move Finished
         animator.SetBool("Walk", false);
-        //animator.SetBool("KillWalk", false);
+        animator.SetBool("KillWalk", false);
         engine.AddtoDatabase(this);
         engine.EnemyMoveFinished();
 
     }
 
-    public override Clonable Clone()
+    public void Charge()
     {
-        return new ClonableEnemy_Orib(this);
-    }
-}
 
-public class ClonableEnemy_Orib : Clonable
-{
-    public ClonableEnemy_Orib(Enemy_Orib enemy)
-    {
-        original = enemy;
-        trasformposition = enemy.transform.position;
-        position = enemy.Position;
     }
 
-    public override void Undo()
+    public void Shoot()
     {
-        Enemy_Orib enemy = original as Enemy_Orib;
-        enemy.engine.RemovefromDatabase(original);
-        enemy.Position = position;
-        enemy.transform.position = trasformposition;
-        enemy.engine.AddtoDatabase(original);
+
     }
 }
