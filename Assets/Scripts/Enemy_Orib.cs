@@ -31,6 +31,9 @@ public class Enemy_Orib : Enemy {
         for (int i = 4; i < 8; i++)
         {
             Vector2 temppos = poses[i];
+            Vector2 t = poses[i - 4];
+            if (!CanMoveToPosition(t))
+                continue;
             int s = i;
             if (!CanMoveToPosition(temppos))
             {
