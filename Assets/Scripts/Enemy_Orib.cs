@@ -31,20 +31,24 @@ public class Enemy_Orib : Enemy {
         for (int i = 4; i < 8; i++)
         {
             Vector2 temppos = poses[i];
+            int s = i;
             if (!CanMoveToPosition(temppos))
+            {
                 temppos = poses[i - 4];
+                s -= 4;
+            }
             if (!CanMoveToPosition(temppos))
                 continue;
             float temp = Vector2.SqrMagnitude(temppos - PlayerPos);
             if (temp < min && min - temp > 0.01)
             {
                 selected.Clear();
-                selected.Add(i);
+                selected.Add(s);
                 min = temp;
             }
             else if (min - temp < 0.01 && min >= temp)
             {
-                selected.Add(i);
+                selected.Add(s);
             }
         }
         if (selected.Count == 0)
