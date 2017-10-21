@@ -54,11 +54,8 @@
      <Compile Include="Assets\Scripts\AnimationEventPlayer.cs" />
      <Compile Include="Assets\Scripts\Block.cs" />
      <Compile Include="Assets\Scripts\Box.cs" />
-<<<<<<< HEAD
      <Compile Include="Assets\Scripts\ChangeSence.cs" />
-=======
      <Compile Include="Assets\Scripts\CollapseHome.cs" />
->>>>>>> b50343f79c9fb47d2dbeba88b30f2f402fabe26e
      <Compile Include="Assets\Scripts\End.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\Enemy_Gulakh.cs" />
