@@ -27,6 +27,7 @@ public class End : Unit {
     public void Lock()
     {
         transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+        IsLocked = true;
         if (hasSwitch)
         {
             Debug.Log("player switch lock animation");
@@ -38,6 +39,7 @@ public class End : Unit {
 
     public void Unlock()
     {
+        IsLocked = false;
         transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
         if (hasSwitch)
         {
