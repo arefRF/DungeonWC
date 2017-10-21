@@ -12,7 +12,7 @@ public class Fireball : MonoBehaviour {
             return;
         if (unit is Player)
         {
-            unit.GetComponentInChildren<Animator>().SetBool("Death", true);
+            (unit as Player).Die();
         }
         else if (unit is Enemy)
         {

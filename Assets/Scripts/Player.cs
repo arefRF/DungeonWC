@@ -12,6 +12,8 @@ public class Player : Unit {
     public Vector2 prevpos { get; set; }
     public float speed = 3;
     private SpriteRenderer sprite;
+
+    public bool isdead = false;
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
@@ -235,7 +237,6 @@ public class Player : Unit {
         List<Unit> units = engine.units[(int)position.x, (int)position.y];
         for(int i=0; i<units.Count; i++)
         {
-            Debug.Log(units[i]);
             if (units[i] is Block)
                 return false;
             if(units[i] is Box)
@@ -270,13 +271,20 @@ public class Player : Unit {
     {
         return new ClonablePlayer(this);
     }
+
+    public void Die()
+    {
+        GetComponentInChildren<Animator>().SetBool("Death", true);
+        engine.RemovefromDatabase(this);
+        Clone();
+        isdead = true;
+    }
 }
 
 public class ClonablePlayer: Clonable
 {
     public Key key;
     public Vector2 prevpos;
-
 
     public ClonablePlayer(Player player)
     {
@@ -296,5 +304,7 @@ public class ClonablePlayer: Clonable
         player.prevpos = prevpos;
         player.transform.position = trasformposition;
         player.engine.AddtoDatabase(original);
+        player.isdead = false;
+        player.GetComponentInChildren<Animator>().SetBool("Death", false);
     }
 }

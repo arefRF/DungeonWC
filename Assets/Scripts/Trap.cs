@@ -44,6 +44,11 @@ public class Trap : Unit {
     {
         return new ClonableTrap(this);
     }
+
+    public void Destroy()
+    {
+        isdestroyed = true;
+    }
 }
 
 public class ClonableTrap : Clonable

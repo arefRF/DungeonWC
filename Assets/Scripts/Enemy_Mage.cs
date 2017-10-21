@@ -257,6 +257,10 @@ public class ClonableEnemy_Mage : Clonable
         enemy.transform.position = trasformposition;
         enemy.engine.AddtoDatabase(original);
         enemy.FireballCharged = charged;
+        if(!charged)
+            enemy.GetComponentInChildren<Animator>().SetBool("Charge", false);
+        else
+            enemy.GetComponentInChildren<Animator>().SetBool("Charge", true);
         enemy.chargedirection = fireballdirection;
         enemy.PlayerPos = playerpos;
         enemy.GetComponentInChildren<Animator>().SetBool("Death", false);
