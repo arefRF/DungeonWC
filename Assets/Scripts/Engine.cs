@@ -96,11 +96,15 @@ public class Engine : MonoBehaviour {
     {
         for(int i=0; i<enemies.Count; i++)
         {
-            enemies[i].SetNextPos();
+            if(!enemies[i].isdead)
+                enemies[i].SetNextPos();
         }
         for(int i=0; i<enemies.Count; i++)
         {
-            enemies[i].Move();
+            if (!enemies[i].isdead)
+                enemies[i].Move();
+            else
+                EnemyMoveFinished();
         }
     }
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
@@ -111,6 +115,8 @@ public class Engine : MonoBehaviour {
         {
             for(int i=0; i<enemies.Count; i++)
             {
+                if (enemies[i].isdead)
+                    continue;
                 enemies[i].UpdatePlayerPos();
                 if (key != null && enemies[i].key == null)
                 {
@@ -123,7 +129,7 @@ public class Engine : MonoBehaviour {
                 {
                     if(traps[j].Position == enemies[i].Position)
                     {
-                        Debug.Log("enemie should die");
+                        enemies[i].Die();
                     }
                 }
             }

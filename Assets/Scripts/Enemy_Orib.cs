@@ -128,17 +128,31 @@ public class Enemy_Orib : Enemy {
     {
         return new ClonableEnemy_Orib(this);
     }
+
+    public override void Die()
+    {
+        transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+        transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
+        GetComponentInChildren<Animator>().SetBool("Death", true);
+        engine.RemovefromDatabase(this);
+        Clone();
+        isdead = true;
+    }
 }
 
 public class ClonableEnemy_Orib : Clonable
 {
     public Vector2 playerpos;
+    public bool isdead, b1, b2;
     public ClonableEnemy_Orib(Enemy_Orib enemy)
     {
         original = enemy;
         trasformposition = enemy.transform.position;
         position = enemy.Position;
         playerpos = enemy.PlayerPostemp;
+        isdead = enemy.isdead;
+        b1 = enemy.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled;
+        b2 = enemy.transform.GetChild(2).GetComponent<SpriteRenderer>().enabled;
     }
 
     public override void Undo()
@@ -150,5 +164,9 @@ public class ClonableEnemy_Orib : Clonable
         enemy.transform.position = trasformposition;
         enemy.engine.AddtoDatabase(original);
         enemy.PlayerPos = playerpos;
+        enemy.GetComponentInChildren<Animator>().SetBool("Death", false);
+        enemy.isdead = isdead;
+        enemy.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = b1;
+        enemy.transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = b2;
     }
 }
