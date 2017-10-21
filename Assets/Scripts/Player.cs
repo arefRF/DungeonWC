@@ -65,6 +65,8 @@ public class Player : Unit {
         if (CanMoveToPosition(temppos, direction))
         {
             engine.AddToSnapshot(Clone());
+            for (int i = 0; i < engine.enemies.Count; i++)
+                engine.AddToSnapshot(engine.enemies[i].Clone());
             prevpos = Position;
             Position = temppos;
             transform.position = ToolKit.VectorSum(transform.position, direction);
