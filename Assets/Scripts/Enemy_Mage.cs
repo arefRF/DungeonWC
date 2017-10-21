@@ -190,18 +190,19 @@ public class Enemy_Mage : Enemy {
     private IEnumerator MoveCoFireBall(Direction direction)
     {
         GameObject g = transform.GetChild(3).gameObject;
-        Vector2 nextpos = new Vector2(0,0);
+        Vector3 nextpos = new Vector3(0,0, 10);
         switch (direction)
         {
-            case Direction.Down: nextpos = new Vector2(g.transform.position.x, 0); break;
-            case Direction.Left: nextpos = new Vector2(0, g.transform.position.y); break;
-            case Direction.Right: nextpos = new Vector2(engine.sizeX, g.transform.position.y); break;
-            case Direction.Up: nextpos = new Vector2(g.transform.position.x, engine.sizeY); break;
+            case Direction.Down: nextpos = new Vector3(g.transform.position.x, 0, 10); break;
+            case Direction.Left: nextpos = new Vector3(0, g.transform.position.y, 10); break;
+            case Direction.Right: nextpos = new Vector3(engine.sizeX, g.transform.position.y, 10); break;
+            case Direction.Up: nextpos = new Vector3(g.transform.position.x, engine.sizeY, 10); break;
         }
+        g.GetComponent<SpriteRenderer>().enabled = true;
         while (g.transform.position.x > 0 && g.transform.position.y > 0 && g.transform.position.x < engine.sizeX && g.transform.position.y < engine.sizeY)
         {
+            g.GetComponent<SpriteRenderer>().enabled = true;
             g.transform.position = Vector3.MoveTowards(g.transform.position, nextpos, Time.deltaTime * 15);
-            //Debug.Log("aslb");
             yield return null;
         }
         g.GetComponent<SpriteRenderer>().enabled = false;
