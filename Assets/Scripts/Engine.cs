@@ -122,6 +122,7 @@ public class Engine : MonoBehaviour {
                     continue;
                 if(enemies[i] is Enemy_Mage)
                 {
+                    enemies[i].UpdatePlayerPos();
                     if (enemies[i].PlayerPos == player.Position)
                     {
                         Vector2 temppos = player.Position - enemies[i].Position;
