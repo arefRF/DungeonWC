@@ -121,6 +121,10 @@ public class Engine : MonoBehaviour {
                 if (enemies[i].isdead)
                     continue;
                 enemies[i].UpdatePlayerPos();
+                if(enemies[i].Position == player.Position)
+                {
+                    player.Die();
+                }
                 if (key != null && enemies[i].key == null)
                 {
                     if (enemies[i].Position == key.Position)

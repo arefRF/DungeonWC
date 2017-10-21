@@ -22,7 +22,6 @@ public class ChangeSence : MonoBehaviour {
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(1);
-        Debug.Log("here");
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
     }
 }
