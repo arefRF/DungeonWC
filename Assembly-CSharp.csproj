@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\Enemy_Orib.cs" />
      <Compile Include="Assets\Scripts\Enemy_Simple.cs" />
      <Compile Include="Assets\Scripts\Engine.cs" />
+     <Compile Include="Assets\Scripts\Fireball.cs" />
      <Compile Include="Assets\Scripts\GetInput.cs" />
      <Compile Include="Assets\Scripts\Key.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />

@@ -64,6 +64,7 @@ public class Player : Unit {
         bool playermoved = false;
         if (CanMoveToPosition(temppos, direction))
         {
+            engine.AddToSnapshot(Clone());
             prevpos = Position;
             Position = temppos;
             transform.position = ToolKit.VectorSum(transform.position, direction);
