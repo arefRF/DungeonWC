@@ -7,8 +7,8 @@ public class Switch : Unit{
     public End endtile { get; set; }
     public bool isOn = false;
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
 		
 	}
 	
