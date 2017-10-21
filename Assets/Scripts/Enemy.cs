@@ -58,7 +58,8 @@ public class Enemy : Unit {
             Player player = hit.collider.gameObject.GetComponent<Player>();
             if(player != null)
             {
-                source.PlayOneShot(sound_detetct);
+                if(!transform.GetChild(1).GetComponent<SpriteRenderer>().enabled)
+                    source.PlayOneShot(sound_detetct);
                 PlayerPos = player.Position;
                 transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
                 transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
