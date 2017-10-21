@@ -44,6 +44,7 @@ public class Enemy_Simple : Enemy {
             engine.EnemyMoveFinished();
         if(selected.Count == 1)
         {
+            movedir = ToolKit.IntToDirection(selected[0]);
             NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(selected[0]));
         }
         else
@@ -63,6 +64,7 @@ public class Enemy_Simple : Enemy {
                     }
                 }
             }
+            movedir = ToolKit.IntToDirection(sel);
             NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(sel));
         }
     }

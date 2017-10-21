@@ -9,6 +9,7 @@ public class Enemy : Unit {
     public Vector2 PlayerPos { get; set; }
     public Vector2 PlayerPostemp { get; set; }
 
+    public Direction movedir;
     public bool isdead { get; set; }
     protected Animator animator;
     protected AudioClip[] sounds;

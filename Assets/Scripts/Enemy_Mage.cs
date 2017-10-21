@@ -72,11 +72,11 @@ public class Enemy_Mage : Enemy {
             }
             if (selected.Count == 0)
             {
-                Debug.Log("asf32323232323232323");
                 engine.EnemyMoveFinished();
             }
             else if (selected.Count == 1)
             {
+                movedir = ToolKit.IntToDirection(selected[0]);
                 NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(selected[0]));
             }
             else
@@ -96,6 +96,7 @@ public class Enemy_Mage : Enemy {
                         }
                     }
                 }
+                movedir = ToolKit.IntToDirection(sel);
                 NextPos = ToolKit.VectorSum(Position, ToolKit.IntToDirection(sel));
             }
         }
