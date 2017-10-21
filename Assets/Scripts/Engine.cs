@@ -78,11 +78,11 @@ public class Engine : MonoBehaviour {
         CheckSwitch();
         if (enemies.Count == 0)
             EnemyMoveFinished();
-        else
-            EnemyMove();
+        //else
+            //EnemyMove();
     }
 
-    private void EnemyMove()
+    public void EnemyMove()
     {
         for(int i=0; i<enemies.Count; i++)
         {
