@@ -143,12 +143,14 @@ public class Enemy_Mage : Enemy {
             case Direction.Right: nextpos = new Vector2(engine.sizeX, g.transform.position.y); break;
             case Direction.Up: nextpos = new Vector2(g.transform.position.x, engine.sizeY); break;
         }
-        while (g.transform.position.x > 0 && g.transform.position.y > 0 && g.transform.position.x <= engine.sizeX && g.transform.position.y <= engine.sizeY)
+        while (g.transform.position.x > 0 && g.transform.position.y > 0 && g.transform.position.x < engine.sizeX && g.transform.position.y < engine.sizeY)
         {
             g.transform.position = Vector3.MoveTowards(g.transform.position, nextpos, Time.deltaTime * 40);
+            //Debug.Log("aslb");
             yield return null;
         }
         g.GetComponent<SpriteRenderer>().enabled = false;
+        g.transform.localPosition = new Vector3(-1.15f, 0.69f, 10);
 
     }
 
