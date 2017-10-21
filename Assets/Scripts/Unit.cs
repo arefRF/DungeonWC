@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour {
     public Engine engine { get; set; }
     public Vector2 Position { get; set; }
 
+    public Vector3 npos { get; set; }
     public virtual Clonable Clone()
     {
         return null;

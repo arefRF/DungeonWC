@@ -18,6 +18,13 @@ public class Enemy : Unit {
          
     }
 
+    public virtual void ForceMove()
+    {
+        StopAllCoroutines();
+        transform.position = npos;
+        engine.EnemyMoveFinished();
+    }
+
     public virtual bool CanMoveToPosition(Vector2 position)
     {
         if(!(position.x >= 0 && position.y >= 0 && position.x < engine.sizeX && position.y < engine.sizeY))

@@ -75,6 +75,7 @@ public class Enemy_Simple : Enemy {
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = NextPos;
+        npos = Position;
         if (key != null)
         {
             engine.AddToSnapshot(key.Clone());
