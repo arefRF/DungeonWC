@@ -168,6 +168,7 @@ public class Engine : MonoBehaviour {
         {
             temp.clones[i].Undo();
         }
+        CheckSwitch();
         turn = Turn.PlayerTurn;
     }
 
