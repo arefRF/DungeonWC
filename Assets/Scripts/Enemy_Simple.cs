@@ -69,8 +69,20 @@ public class Enemy_Simple : Enemy {
 
         if (Position == NextPos)
         {
+            transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+            transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
             engine.EnemyMoveFinished();
             return;
+        }
+        if(PlayerPos == engine.player.Position)
+        {
+            transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+            transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
+        }
+        else
+        {
+            transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+            transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = true;
         }
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
