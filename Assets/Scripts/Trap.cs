@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Trap : Unit {
 
+    public int speed = 4;
     public void Move(Direction direction)
     {
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = ToolKit.VectorSum(Position, direction);
-        transform.position = ToolKit.VectorSum(transform.position, direction);
-        engine.AddtoDatabase(this);
+        StartCoroutine(MoveCo(ToolKit.VectorSum(transform.position, direction)));
     }
 
     public bool CanMoveToPosition(Vector2 position)
@@ -24,6 +24,19 @@ public class Trap : Unit {
                 return false;
         }
         return true;
+    }
+    private IEnumerator MoveCo(Vector3 nextPos)
+    {
+        float remain = (transform.position - nextPos).sqrMagnitude;
+        while (remain > float.Epsilon)
+        {
+            remain = (transform.position - nextPos).sqrMagnitude;
+            transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * speed);
+            yield return null;
+        }
+
+        /// Move Finished
+        engine.AddtoDatabase(this);
     }
 
     public override Clonable Clone()

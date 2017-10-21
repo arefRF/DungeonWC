@@ -144,6 +144,8 @@ public class Player : Unit {
         List<Unit> units = engine.units[(int)position.x, (int)position.y];
         for(int i=0; i<units.Count; i++)
         {
+            if (units[i] is Block)
+                return false;
             if(units[i] is Box)
             {
                 if ((units[i] as Box).CanMoveToPosition(ToolKit.VectorSum(position, direction), direction))

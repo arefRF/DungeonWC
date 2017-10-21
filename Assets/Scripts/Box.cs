@@ -6,6 +6,7 @@ public class Box : Unit {
 
     public Trap trap { get; set; }
 
+    public int speed = 4;
     public void Move(Direction direction)
     {
         if (trap != null)
@@ -13,8 +14,7 @@ public class Box : Unit {
         engine.AddToSnapshot(Clone());
         engine.RemovefromDatabase(this);
         Position = ToolKit.VectorSum(Position, direction);
-        transform.position = ToolKit.VectorSum(transform.position, direction);
-        engine.AddtoDatabase(this);
+        StartCoroutine(MoveCo(ToolKit.VectorSum(transform.position, direction)));
     }
 
 	public bool CanMoveToPosition(Vector2 position, Direction direction)
@@ -37,6 +37,20 @@ public class Box : Unit {
             }
         }
         return true;
+    }
+
+    private IEnumerator MoveCo(Vector3 nextPos)
+    {
+        float remain = (transform.position - nextPos).sqrMagnitude;
+        while (remain > float.Epsilon)
+        {
+            remain = (transform.position - nextPos).sqrMagnitude;
+            transform.position = Vector3.MoveTowards(transform.position, nextPos, Time.deltaTime * speed);
+            yield return null;
+        }
+
+        /// Move Finished
+        engine.AddtoDatabase(this);
     }
 
     public override Clonable Clone()
